@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1068880153124",
+    "project_id": "bus-tracking-app-emerson",
+    "storage_bucket": "bus-tracking-app-emerson.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1068880153124:android:b7134a02d81cc6ef6e26b1",
+        "android_client_info": {
+          "package_name": "com.emerson.emersonbustracking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1068880153124-o42a0qdq9hn823ijbk1lh8tictru9d75.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClP9HsFiptfMjFacmJaiz2HZ9ilTvo0Tg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1068880153124-o42a0qdq9hn823ijbk1lh8tictru9d75.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

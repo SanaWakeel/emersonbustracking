@@ -41,6 +41,12 @@ dependencies:
   http: ^0.13.5
   another_flushbar: ^1.12.29
   shared_preferences: ^2.0.15
+  firebase_auth: ^3.8.0
+  firebase_core: ^1.22.0
+  firebase_storage: ^10.3.8
+  cloud_firestore: ^3.4.7
+  google_sign_in: ^5.4.1
+  font_awesome_flutter: ^10.2.1
 
 dev_dependencies:
   flutter_test:
@@ -65,8 +71,8 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - lib/res/images/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

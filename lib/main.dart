@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'utils/routes/route.dart';
@@ -5,8 +6,10 @@ import 'utils/routes/route_name.dart';
 import 'viewModel/authViewModel.dart';
 import 'viewModel/userViewModel.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -21,6 +24,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => UserViewModel()),
       ],
       child: const MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Bus Tracking App',
         initialRoute: RouteName.splash,
         onGenerateRoute: Routes.generateRoute,
