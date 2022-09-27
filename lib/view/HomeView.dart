@@ -2,6 +2,8 @@ import 'package:emersonbustracking/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../utils/routes/route_name.dart';
 import '../viewModel/userViewModel.dart';
 import 'LoginView.dart';
@@ -21,7 +23,9 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Center(child: Text('Home'),),
+        title: Center(
+          child: Text('Home'),
+        ),
         actions: [
           IconButton(
             onPressed: () {
@@ -33,7 +37,9 @@ class _HomeViewState extends State<HomeView> {
                     );
                   });
 
-              auth.signOut().then((value) {
+              auth.signOut().then((value) async {
+                // final pref = await SharedPreferences.getInstance();
+                // pref.setBool('showHome', false);
                 Navigator.of(context).pop();
                 Navigator.pushNamed(context, RouteName.login);
               }).onError((error, stackTrace) {

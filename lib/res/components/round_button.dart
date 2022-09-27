@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../colors.dart';
 
-
 class RoundButton extends StatelessWidget {
   // const RoundButton({Key? key}) : super(key: key);
 
@@ -24,12 +23,10 @@ class RoundButton extends StatelessWidget {
       onTap: onPress,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.btnColor,
-          borderRadius: BorderRadius.all(Radius.circular(8))
-        ),
+            color: AppColors.primaryColor,
+            borderRadius: BorderRadius.all(Radius.circular(8))),
         height: 40,
         width: 200,
-
         child: Center(
           child: loading
               ? CircularProgressIndicator(
