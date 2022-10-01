@@ -8,12 +8,19 @@ import 'utils/routes/route.dart';
 import 'utils/routes/route_name.dart';
 import 'viewModel/authViewModel.dart';
 import 'viewModel/userViewModel.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   final pref = await SharedPreferences.getInstance();
   final showHomeV = pref.getBool('showHome') ?? false;
+  String? fcmToken = await FirebaseMessaging.instance.getToken();
+  if (fcmToken != null) {
+    debugPrint("\n fcm token get: \n $fcmToken");
+  } else {
+    debugPrint("\n token failed : \n");
+  }
   runApp(MyApp(showHome: showHomeV));
   // runApp(MyApp());
 }
