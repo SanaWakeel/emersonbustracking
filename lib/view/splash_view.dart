@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../viewModel/service/firebase_service/SplashServices.dart';
+import '../viewModel/service/firebase_service/splash_services.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -10,6 +10,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   SplashServices splashScreen = SplashServices();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -30,11 +31,11 @@ class _SplashScreenState extends State<SplashScreen> {
               // color: Colors.blue,
               child: Image.asset('lib/res/images/bus_circle.png'),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Container(
-              child: Text(
+              child: const Text(
                 'Emerson Bus Tracking',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),

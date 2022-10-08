@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../model/userModel.dart';
+import '../model/user_model.dart';
 
 class UserViewModel with ChangeNotifier {
-  Future<bool> SaveUser(UserModel user) async {
+  Future<bool> saveUser(UserModel user) async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     sp.setString('token', user.token.toString());
     notifyListeners();

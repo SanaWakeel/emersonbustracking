@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Utils {
-  static const String google_api_key="AIzaSyDXRCj0868fNVIVvBvLVMnwjgZUT43f1c8";
+  static const String googleApiKey = "AIzaSyDXRCj0868fNVIVvBvLVMnwjgZUT43f1c8";
+
   static void fieldFocusChange(
       BuildContext context, FocusNode current, FocusNode nextFocus) {
     current.unfocus();
@@ -25,16 +26,16 @@ class Utils {
         flushbar: Flushbar(
           flushbarPosition: FlushbarPosition.TOP,
           forwardAnimationCurve: Curves.decelerate,
-          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 20.0),
-          padding: EdgeInsets.all(15),
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20.0),
+          padding: const EdgeInsets.all(15),
           borderRadius: BorderRadius.circular(8),
           message: message,
-          duration: Duration(seconds: 3),
+          duration: const Duration(seconds: 3),
           messageColor: Colors.white,
           backgroundColor: Colors.red,
           reverseAnimationCurve: Curves.easeInOut,
           positionOffset: 20,
-          icon: Icon(Icons.error, size: 28, color: Colors.white),
+          icon: const Icon(Icons.error, size: 28, color: Colors.white),
         )..show(context));
   }
 

@@ -1,4 +1,4 @@
-import 'package:emersonbustracking/res/colors.dart';
+import '../../../res/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,8 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'utils/routes/route.dart';
 import 'utils/routes/route_name.dart';
-import 'viewModel/authViewModel.dart';
-import 'viewModel/userViewModel.dart';
+import 'viewModel/auth_view_model.dart';
+import 'viewModel/user_view_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 void main() async {
@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         title: 'Bus Tracking App',
         theme: ThemeData(
             primaryColor: Colors.teal,
-            appBarTheme: AppBarTheme(
+            appBarTheme: const AppBarTheme(
                 backgroundColor: AppColors.primaryColor,
                 foregroundColor: Colors.white //here you can give the text color
                 )),

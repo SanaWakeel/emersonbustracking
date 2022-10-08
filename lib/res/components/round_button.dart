@@ -22,19 +22,19 @@ class RoundButton extends StatelessWidget {
     return InkWell(
       onTap: onPress,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: AppColors.primaryColor,
             borderRadius: BorderRadius.all(Radius.circular(8))),
         height: 40,
         width: 200,
         child: Center(
           child: loading
-              ? CircularProgressIndicator(
+              ? const CircularProgressIndicator(
                   color: AppColors.white,
                 )
               : Text(
                   title,
-                  style: TextStyle(color: AppColors.white),
+                  style: const TextStyle(color: AppColors.white),
                 ),
         ),
       ),

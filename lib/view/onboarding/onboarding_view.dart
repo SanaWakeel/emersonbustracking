@@ -1,10 +1,8 @@
 import 'package:emersonbustracking/utils/routes/route_name.dart';
 import 'package:emersonbustracking/res/colors.dart';
-import 'package:emersonbustracking/view/LoginView.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:emersonbustracking/view/HomeView.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({Key? key}) : super(key: key);
@@ -46,7 +44,7 @@ class _OnboardingViewState extends State<OnboardingView> {
             ),
             Text(
               title,
-              style: TextStyle(
+              style: const TextStyle(
                   color: AppColors.primaryColor,
                   fontSize: 32,
                   fontWeight: FontWeight.bold),
@@ -56,7 +54,7 @@ class _OnboardingViewState extends State<OnboardingView> {
             ),
             Text(
               subTitle,
-              style: TextStyle(
+              style: const TextStyle(
                   color: AppColors.primaryColor,
                   fontSize: 18,
                   fontWeight: FontWeight.normal),
@@ -77,7 +75,7 @@ class _OnboardingViewState extends State<OnboardingView> {
           controller: controller,
           children: [
             Container(
-              margin: EdgeInsets.fromLTRB(0, 120, 0, 0),
+              margin: const EdgeInsets.fromLTRB(0, 120, 0, 0),
               color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -92,10 +90,10 @@ class _OnboardingViewState extends State<OnboardingView> {
                     height: 64,
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 40, 0, 0),
+                    margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Text(
                           "Track University Bus",
                           style: TextStyle(
@@ -103,7 +101,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                               fontSize: 32,
                               fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 20,
                         ),
                         Text(
@@ -120,7 +118,7 @@ class _OnboardingViewState extends State<OnboardingView> {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(0, 100, 0, 0),
+              margin: const EdgeInsets.fromLTRB(0, 100, 0, 0),
               color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -135,10 +133,10 @@ class _OnboardingViewState extends State<OnboardingView> {
                     height: 64,
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Text(
                           "Smart Notification",
                           style: TextStyle(
@@ -146,7 +144,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                               fontSize: 32,
                               fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 20,
                         ),
                         Text(
@@ -163,7 +161,7 @@ class _OnboardingViewState extends State<OnboardingView> {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(0, 100, 0, 0),
+              margin: const EdgeInsets.fromLTRB(0, 100, 0, 0),
               color: Colors.white,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -176,10 +174,10 @@ class _OnboardingViewState extends State<OnboardingView> {
                     height: 64,
                   ),
                   Container(
-                    margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: const [
                         Text(
                           "Emerson Bus Tracking",
                           style: TextStyle(
@@ -187,7 +185,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                               fontSize: 32,
                               fontWeight: FontWeight.bold),
                         ),
-                        const SizedBox(
+                        SizedBox(
                           height: 20,
                         ),
                         Text(
@@ -258,13 +256,12 @@ class _OnboardingViewState extends State<OnboardingView> {
               onPressed: () async {
                 final pref = await SharedPreferences.getInstance();
                 pref.setBool('showHome', true);
-                Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) => LoginView()));
+                Navigator.pushReplacementNamed(context, RouteName.login);
                 // Navigator.pushNamed(context, RouteName.home);
               },
             )
           : Container(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               height: 80,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -277,7 +274,7 @@ class _OnboardingViewState extends State<OnboardingView> {
                     child: SmoothPageIndicator(
                       controller: controller,
                       count: 3,
-                      effect: WormEffect(
+                      effect: const WormEffect(
                         spacing: 16,
                         dotColor: Colors.black26,
                         activeDotColor: AppColors.primaryColor,

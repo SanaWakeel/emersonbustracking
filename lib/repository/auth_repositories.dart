@@ -1,9 +1,9 @@
-import '../data/network/BaseApiService.dart';
-import '../data/network/NetworkApiService.dart';
+import '../data/network/base_api_service.dart';
+import '../data/network/network_api_service.dart';
 import '../res/app_urls.dart';
 
 class AuthRepository {
-  BaseApiService _apiService = NetworkApiService();
+  final BaseApiService _apiService = NetworkApiService();
 
   Future<dynamic> loginApi(dynamic data) async {
     try {

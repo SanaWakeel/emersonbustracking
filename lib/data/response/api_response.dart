@@ -1,18 +1,16 @@
 import 'status.dart';
 
-class ApiResponse<T>{
+class ApiResponse<T> {
   Status? status;
   T? data;
   String? message;
 
   ApiResponse(this.status, this.data, this.message);
-  ApiResponse.loading():status=Status.LOADING;
-  ApiResponse.completed():status=Status.COMPLETED;
-  ApiResponse.error():status=Status.ERROR;
+  ApiResponse.loading() : status = Status.loading;
+  ApiResponse.completed() : status = Status.completed;
+  ApiResponse.error() : status = Status.error;
 
-  String toString(){
+  String toString() {
     return "Status:$status \n Message:$message \n Data:$data";
   }
-
-
 }

@@ -1,13 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../res/colors.dart';
 import '../res/components/round_button.dart';
 import '../utils/routes/route_name.dart';
 import '../utils/utils.dart';
-import '../viewModel/authViewModel.dart';
+import '../viewModel/auth_view_model.dart';
 
 class SignupView extends StatefulWidget {
   const SignupView({Key? key}) : super(key: key);
@@ -18,10 +16,10 @@ class SignupView extends StatefulWidget {
 
 class _SignupViewState extends State<SignupView> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _emailController = new TextEditingController();
-  TextEditingController _passwordController = new TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
-  ValueNotifier<bool> obsurePassword = new ValueNotifier<bool>(true);
+  ValueNotifier<bool> obsurePassword = ValueNotifier<bool>(true);
 
   FocusNode emailFocusNode = FocusNode();
 
@@ -41,7 +39,7 @@ class _SignupViewState extends State<SignupView> {
     showDialog(
         context: context,
         builder: (context) {
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         });
@@ -70,7 +68,7 @@ class _SignupViewState extends State<SignupView> {
         appBar: AppBar(
           titleSpacing: 0,
           automaticallyImplyLeading: false,
-          title: Center(
+          title: const Center(
             child: Text(
               "Signup",
             ),
@@ -79,7 +77,7 @@ class _SignupViewState extends State<SignupView> {
 
         body: SingleChildScrollView(
           reverse: true,
-          padding: EdgeInsets.all(32),
+          padding: const EdgeInsets.all(32),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -98,7 +96,7 @@ class _SignupViewState extends State<SignupView> {
                       keyboardType: TextInputType.emailAddress,
                       controller: _emailController,
                       focusNode: emailFocusNode,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: "abc@gmail.com",
                         label: Text("Email"),
                         prefixIcon: Icon(Icons.email),
@@ -124,8 +122,8 @@ class _SignupViewState extends State<SignupView> {
                               obscuringCharacter: "*",
                               decoration: InputDecoration(
                                 hintText: "enter password",
-                                label: Text("Password"),
-                                prefixIcon: Icon(Icons.lock),
+                                label: const Text("Password"),
+                                prefixIcon: const Icon(Icons.lock),
                                 suffix: InkWell(
                                     onTap: () {
                                       obsurePassword.value =
@@ -144,7 +142,7 @@ class _SignupViewState extends State<SignupView> {
                                 return null;
                               });
                         }),
-                    SizedBox(
+                    const SizedBox(
                       height: 30,
                     ),
                     RoundButton(
@@ -175,14 +173,14 @@ class _SignupViewState extends State<SignupView> {
                           //   };
                           // authViewModel.loginApi(data, context);
                         }),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     InkWell(
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Text("Already have an account? Login"),
+                      child: const Text("Already have an account? Login"),
                     ),
                   ],
                 ),

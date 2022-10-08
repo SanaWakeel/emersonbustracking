@@ -2,11 +2,10 @@ import 'package:emersonbustracking/utils/utils.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../utils/routes/route_name.dart';
-import '../viewModel/userViewModel.dart';
-import 'LoginView.dart';
+import '../viewModel/user_view_model.dart';
+import '../res/components/round_button.dart';
+import '../viewModel/auth_view_model.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -23,7 +22,7 @@ class _HomeViewState extends State<HomeView> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Center(
+        title: const Center(
           child: Text('Home'),
         ),
         actions: [
@@ -32,7 +31,7 @@ class _HomeViewState extends State<HomeView> {
               showDialog(
                   context: context,
                   builder: (context) {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   });
@@ -47,31 +46,28 @@ class _HomeViewState extends State<HomeView> {
                 Navigator.of(context).pop();
               });
             },
-            icon: Icon(Icons.logout_outlined),
+            icon: const Icon(Icons.logout_outlined),
           ),
         ],
       ),
       body: SafeArea(
         child: Column(
           children: [
-            // InkWell(
-            //   onTap: () {
-            //     showDialog(
-            //         context: context,
-            //         builder: (context) {
-            //           return Center(
-            //             child: CircularProgressIndicator(),
-            //           );
-            //         });
-            //
-            //     userPreference.remove().then((value) {
-            //       Navigator.pushReplacement(context,
-            //           MaterialPageRoute(builder: (context) => LoginView()));
-            //     });
-            //     Navigator.of(context).pop();
-            //   },
-            //   child: Text("logout"),
-            // ),
+            const SizedBox(
+              height: 100,
+            ),
+            RoundButton(
+                loading: AuthViewModel.isloading,
+                title: "Open Map",
+                onPress: () {
+                  Navigator.pushNamed(context, RouteName.bustracking);
+                }),
+            RoundButton(
+                loading: AuthViewModel.isloading,
+                title: "Open MapView",
+                onPress: () {
+                  Navigator.pushNamed(context, RouteName.map);
+                }),
           ],
         ),
       ),
