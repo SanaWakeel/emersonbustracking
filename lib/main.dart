@@ -17,6 +17,7 @@ void main() async {
   final showHomeV = pref.getBool('showHome') ?? false;
   String? fcmToken = await FirebaseMessaging.instance.getToken();
   if (fcmToken != null) {
+    pref.setString("fcmToken", fcmToken);
     debugPrint("\n fcm token get: \n $fcmToken");
   } else {
     debugPrint("\n token failed : \n");

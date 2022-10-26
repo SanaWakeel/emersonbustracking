@@ -1,12 +1,20 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../AuthenticationService/auth_service.dart';
+import '../model/signup_model.dart';
 import '../res/colors.dart';
 import '../res/components/round_button.dart';
 import '../utils/routes/route_name.dart';
 import '../utils/utils.dart';
 import '../viewModel/auth_view_model.dart';
+import 'home_view.dart';
+import 'customer_home_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -19,6 +27,7 @@ class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final databaseRef = FirebaseDatabase.instance.ref('User');
 
   ValueNotifier<bool> obsurePassword = ValueNotifier<bool>(true);
 
@@ -26,6 +35,12 @@ class _LoginViewState extends State<LoginView> {
 
   FocusNode passwordFocusNode = FocusNode();
   final _auth = FirebaseAuth.instance;
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    databaseRef.onValue.listen((event) {}); // through stream get all data
+  }
 
   void dispose() {
     super.dispose();
@@ -45,20 +60,68 @@ class _LoginViewState extends State<LoginView> {
           );
         });
 
-    await _auth
-        .signInWithEmailAndPassword(
-            email: _emailController.text.toString(),
-            password: _passwordController.text.toString())
-        .then((value) {
-      Utils.toastMessage("Login Success");
-      Navigator.of(context).pop();
-      Navigator.pushReplacementNamed(context, RouteName.home);
+    var result = await _auth.signInWithEmailAndPassword(
+        email: _emailController.text.toString(),
+        password: _passwordController.text.toString());
+    if (result.user != null) {
+      SignUpModel? signUpModel =
+          await AuthenticationService().getUserDetail(result.user!.uid);
+      debugPrint("SignUp Model after login:$signUpModel");
 
-      // Utils.toastMessage(value.user!.email.toString());
-    }).onError((error, stackTrace) {
-      Utils.toastMessage("Error : $error");
-      Navigator.of(context).pop();
-    });
+      if (signUpModel != null) {
+        final prefs = await SharedPreferences.getInstance();
+        prefs.setString('userModel', json.encode(signUpModel));
+        Utils.toastMessage("Login Success");
+        Navigator.of(context).pop();
+        print("role:${signUpModel.role}");
+
+        var signUpModelShared = json.decode(prefs.getString('userModel')!);
+        signUpModelShared = SignUpModel.fromJson(signUpModelShared);
+        debugPrint("SignUpModel Role SharedPreference:${signUpModelShared}");
+        if (signUpModelShared!.role == 0) {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              RouteName.adminHome, (Route<dynamic> route) => false);
+          // Navigator.pushReplacementNamed(context, RouteName.adminHome);
+        } else {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              RouteName.home, (Route<dynamic> route) => false);
+          // Navigator.pushReplacementNamed(context, RouteName.home);
+        }
+
+        // if (signUpModel.role == 0) {
+        //   // Navigator.push(HomeView());
+        //   // Navigator.push(
+        //   //   context,
+        //   //   MaterialPageRoute(builder: (context) => const HomeView()),
+        //   // );
+        //
+        //   Navigator.pushReplacementNamed(context, RouteName.map);
+        // } else if (signUpModel.role == 1) {
+        //   // Navigator.push(
+        //   //   context,
+        //   //   MaterialPageRoute(builder: (context) => const CustomerHomeView()),
+        //   // );
+        //   Navigator.pushReplacementNamed(context, RouteName.home);
+        // }
+        // Navigator.pushReplacementNamed(context, RouteName.home);
+      }
+      print("My User Model is:  ${signUpModel?.toJson()}");
+    }
+    Navigator.of(context).pop();
+    // await _auth
+    //     .signInWithEmailAndPassword(
+    //         email: _emailController.text.toString(),
+    //         password: _passwordController.text.toString())
+    //     .then((value) {
+    //   Utils.toastMessage("Login Success");
+    //   Navigator.of(context).pop();
+    //   Navigator.pushReplacementNamed(context, RouteName.home);
+    //
+    //   // Utils.toastMessage(value.user!.email.toString());
+    // }).onError((error, stackTrace) {
+    //   Utils.toastMessage("Error : $error");
+    //   Navigator.of(context).pop();
+    // });
   }
 
   @override

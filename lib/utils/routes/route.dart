@@ -1,4 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../model/signup_model.dart';
+import '../../view/Firebase_view.dart';
+import '../../view/customer_home_view.dart';
 import '../../view/home_view.dart';
 import '../../view/login_view.dart';
 import '../../view/signup_view.dart';
@@ -10,10 +16,20 @@ import 'route_name.dart';
 
 class Routes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
+    debugPrint("generateRoute: ${settings.name}");
     switch (settings.name) {
       case RouteName.home:
+        // final prefs = await SharedPreferences.getInstance();
+        // SignUpModel? signUpModel = json.decode(prefs.getString('userModel')!);
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const CustomerHomeView());
+      case RouteName.adminHome:
+        debugPrint("================get adin route=============");
         return MaterialPageRoute(
             builder: (BuildContext context) => const HomeView());
+      case RouteName.firebase:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const FirebaseView());
       case RouteName.login:
         return MaterialPageRoute(
             builder: (BuildContext context) => const LoginView());

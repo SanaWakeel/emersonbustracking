@@ -5,6 +5,11 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:location/location.dart';
 import 'package:maps_curved_line/maps_curved_line.dart';
 import '../utils/utils.dart';
+import 'package:emersonbustracking/res/colors.dart';
+// import 'package:geocoding/geocoding.dart';
+
+// List<Location> locations =
+//     await locationFromAddress("Gronausestraat 710, Enschede");
 
 class BusTrackingView extends StatefulWidget {
   const BusTrackingView({Key? key}) : super(key: key);
@@ -25,6 +30,18 @@ class _BusTrackingViewState extends State<BusTrackingView> {
       LatLng(31.491377441157386, 74.23256111536254); //lahore
   List<LatLng> polylineCoordinates = [];
   LocationData? currentLocation;
+
+  // getFullAddress(destination);
+
+  // void getFullAddress(location) async {
+  //   List<Placemark> placemarks =
+  //       await placemarkFromCoordinates(location.latitude, location.longitude);
+  //
+  //   var first = placemarks.first;
+  //   print(
+  //       ' ${first.locality}, ${first.administrativeArea},${first.subLocality}, ${first.subAdministrativeArea},${first.name}, ${first.thoroughfare}, ${first.subThoroughfare}');
+  //   // return first;
+  // }
 
   BitmapDescriptor sourceIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
@@ -143,7 +160,7 @@ class _BusTrackingViewState extends State<BusTrackingView> {
       appBar: AppBar(
         title: const Text(
           "Track Bus",
-          style: TextStyle(color: Colors.black, fontSize: 16),
+          style: TextStyle(color: AppColors.white, fontSize: 16),
         ),
       ),
       body: GoogleMap(
@@ -176,7 +193,6 @@ class _BusTrackingViewState extends State<BusTrackingView> {
               snippet: 'My Custom Subtitle',
             ),
           ),
-
           Marker(
             markerId: const MarkerId("destination"),
             icon: destinationIcon,

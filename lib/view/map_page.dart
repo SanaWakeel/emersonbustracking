@@ -188,7 +188,7 @@ class _MapViewState extends State<MapView> {
       appBar: AppBar(
         title: const Text(
           "Track Bus",
-          style: TextStyle(color: Colors.black, fontSize: 16),
+          style: TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),
       body: GoogleMap(
