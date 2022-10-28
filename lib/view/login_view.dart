@@ -51,7 +51,7 @@ class _LoginViewState extends State<LoginView> {
     obsurePassword.dispose();
   }
 
-  void login() async {
+  login() async {
     showDialog(
         context: context,
         builder: (context) {
@@ -59,55 +59,64 @@ class _LoginViewState extends State<LoginView> {
             child: CircularProgressIndicator(),
           );
         });
+    try {
+      var result = await _auth.signInWithEmailAndPassword(
+          email: _emailController.text.toString(),
+          password: _passwordController.text.toString());
+      if (result.user != null) {
+        SignUpModel? signUpModel =
+            await AuthenticationService().getUserDetail(result.user!.uid);
+        debugPrint("SignUp Model after login:$signUpModel");
 
-    var result = await _auth.signInWithEmailAndPassword(
-        email: _emailController.text.toString(),
-        password: _passwordController.text.toString());
-    if (result.user != null) {
-      SignUpModel? signUpModel =
-          await AuthenticationService().getUserDetail(result.user!.uid);
-      debugPrint("SignUp Model after login:$signUpModel");
+        if (signUpModel != null) {
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setString('userModel', json.encode(signUpModel));
+          Utils.toastMessage("Login Success");
+          print("role:${signUpModel.role}");
 
-      if (signUpModel != null) {
-        final prefs = await SharedPreferences.getInstance();
-        prefs.setString('userModel', json.encode(signUpModel));
-        Utils.toastMessage("Login Success");
-        Navigator.of(context).pop();
-        print("role:${signUpModel.role}");
+          var signUpModelShared = json.decode(prefs.getString('userModel')!);
+          signUpModelShared = SignUpModel.fromJson(signUpModelShared);
+          debugPrint("SignUpModel Role SharedPreference:${signUpModelShared}");
+          Navigator.of(context).pop();
+          if (signUpModelShared!.role == 0) {
+            // Navigator.of(context).pushNamedAndRemoveUntil(
+            //     RouteName.adminHome, (Route<dynamic> route) => false);
+            Navigator.pushReplacementNamed(context, RouteName.adminHome);
+          } else {
+            Navigator.pushReplacementNamed(context, RouteName.home);
+            // Navigator.of(context).pushNamedAndRemoveUntil(
+            //     RouteName.home, (Route<dynamic> route) => false);
+            // Navigator.pushReplacementNamed(context, RouteName.home);
+          }
 
-        var signUpModelShared = json.decode(prefs.getString('userModel')!);
-        signUpModelShared = SignUpModel.fromJson(signUpModelShared);
-        debugPrint("SignUpModel Role SharedPreference:${signUpModelShared}");
-        if (signUpModelShared!.role == 0) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              RouteName.adminHome, (Route<dynamic> route) => false);
-          // Navigator.pushReplacementNamed(context, RouteName.adminHome);
-        } else {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              RouteName.home, (Route<dynamic> route) => false);
+          // if (signUpModel.role == 0) {
+          //   // Navigator.push(HomeView());
+          //   // Navigator.push(
+          //   //   context,
+          //   //   MaterialPageRoute(builder: (context) => const HomeView()),
+          //   // );
+          //
+          //   Navigator.pushReplacementNamed(context, RouteName.map);
+          // } else if (signUpModel.role == 1) {
+          //   // Navigator.push(
+          //   //   context,
+          //   //   MaterialPageRoute(builder: (context) => const CustomerHomeView()),
+          //   // );
+          //   Navigator.pushReplacementNamed(context, RouteName.home);
+          // }
           // Navigator.pushReplacementNamed(context, RouteName.home);
+        } else {
+          Navigator.of(context).pop();
         }
-
-        // if (signUpModel.role == 0) {
-        //   // Navigator.push(HomeView());
-        //   // Navigator.push(
-        //   //   context,
-        //   //   MaterialPageRoute(builder: (context) => const HomeView()),
-        //   // );
-        //
-        //   Navigator.pushReplacementNamed(context, RouteName.map);
-        // } else if (signUpModel.role == 1) {
-        //   // Navigator.push(
-        //   //   context,
-        //   //   MaterialPageRoute(builder: (context) => const CustomerHomeView()),
-        //   // );
-        //   Navigator.pushReplacementNamed(context, RouteName.home);
-        // }
-        // Navigator.pushReplacementNamed(context, RouteName.home);
+        print("My User Model is:  ${signUpModel?.toJson()}");
+      } else {
+        Navigator.of(context).pop();
       }
-      print("My User Model is:  ${signUpModel?.toJson()}");
+    } catch (e) {
+      Navigator.of(context).pop();
+      Utils.toastMessage("Error:$e");
     }
-    Navigator.of(context).pop();
+
     // await _auth
     //     .signInWithEmailAndPassword(
     //         email: _emailController.text.toString(),
@@ -214,11 +223,11 @@ class _LoginViewState extends State<LoginView> {
                       RoundButton(
                           loading: AuthViewModel.isloading,
                           title: "Login",
-                          onPress: () {
+                          onPress: () async {
                             if (_formKey.currentState!.validate()) {
                               // Utils.flushBarErrorMessage(
                               //     "Successfully log in", context);
-                              login();
+                              await login();
                             }
 
                             // if (_emailController.text.isEmpty) {

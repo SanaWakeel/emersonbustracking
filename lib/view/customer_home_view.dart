@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../res/colors.dart';
 import '../utils/routes/route_name.dart';
 import '../viewModel/user_view_model.dart';
@@ -105,7 +106,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
-        title: const Text('Customer Home'),
+        title: const Text('Student Dashboard'),
         actions: [
           IconButton(
             onPressed: () {
@@ -118,10 +119,13 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                   });
 
               auth.signOut().then((value) async {
+                final prefs = await SharedPreferences.getInstance();
+                await prefs.remove('userModel');
                 // final pref = await SharedPreferences.getInstance();
                 // pref.setBool('showHome', false);
                 Navigator.of(context).pop();
-                Navigator.pushNamed(context, RouteName.login);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RouteName.login, (route) => false);
               }).onError((error, stackTrace) {
                 Utils.toastMessage(error.toString());
                 Navigator.of(context).pop();

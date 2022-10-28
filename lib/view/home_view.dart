@@ -168,7 +168,7 @@ class _HomeViewState extends State<HomeView> {
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,
-        title: const Text('Admin Home'),
+        title: const Text('Admin Dashboard'),
         actions: [
           IconButton(
             onPressed: () {
@@ -185,7 +185,8 @@ class _HomeViewState extends State<HomeView> {
                 await prefs.remove('userModel');
                 // pref.setBool('showHome', false);
                 Navigator.of(context).pop();
-                Navigator.pushNamed(context, RouteName.login);
+                Navigator.pushNamedAndRemoveUntil(
+                    context, RouteName.login, (route) => false);
               }).onError((error, stackTrace) {
                 Utils.toastMessage(error.toString());
                 Navigator.of(context).pop();

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:location/location.dart';
@@ -109,7 +110,7 @@ class _BusTrackingViewState extends State<BusTrackingView> {
 
   final Set<Polyline> _polylines = Set();
 
-  void drawCurvedLineOnMap() async {
+  drawCurvedLineOnMap() async {
     final LatLng sourcePoint =
         LatLng(sourceLocation.latitude, sourceLocation.longitude);
     final LatLng destinationPoint =
@@ -126,7 +127,7 @@ class _BusTrackingViewState extends State<BusTrackingView> {
     ));
   }
 
-  void setCustomMarkerIcon() {
+  setCustomMarkerIcon() {
     BitmapDescriptor.fromAssetImage(
             ImageConfiguration.empty, "lib/res/images/bus_stop_pointer_128.png")
         .then((icon) {
@@ -148,10 +149,18 @@ class _BusTrackingViewState extends State<BusTrackingView> {
   void initState() {
     // TODO: implement initState
     // getCurrentLocation();
-    setCustomMarkerIcon();
-    // getPolyPoints();
-    drawCurvedLineOnMap();
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      PageDataLoad();
+    });
+
     super.initState();
+  }
+
+  PageDataLoad() async {
+    await setCustomMarkerIcon();
+    // getPolyPoints();
+    await drawCurvedLineOnMap();
+    setState(() {});
   }
 
   @override
@@ -165,8 +174,9 @@ class _BusTrackingViewState extends State<BusTrackingView> {
       ),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
-            target: LatLng(sourceLocation.latitude, sourceLocation.longitude),
-            zoom: 11.5),
+            target: LatLng(31.509598519874956, 74.2716363016269),
+            // target: LatLng(sourceLocation.latitude, sourceLocation.longitude),
+            zoom: 12),
         // CameraPosition(target: sourceLocation, zoom: 13.5),
         polylines: _polylines,
         // polylines: {
@@ -177,20 +187,26 @@ class _BusTrackingViewState extends State<BusTrackingView> {
         //       width: 6),
         // },
         markers: {
-          // Marker(
-          //   markerId: const MarkerId("currentLocation"),
-          //   icon: currentLocationIcon,
-          //   position:
-          //       LatLng(currentLocation!.latitude!, currentLocation!.longitude!),
-          // ),
+          Marker(
+            markerId: const MarkerId("currentLocation"),
+            infoWindow: InfoWindow(
+              //popup info
+              title: 'bus location ',
+              // snippet: 'My Custom Subtitle',
+            ),
+            icon: sourceIcon,
+            // icon: currentLocationIcon,
+            position: LatLng(31.50708592305328, 74.26277550690618),
+          ),
           Marker(
             markerId: const MarkerId("source"),
-            icon: sourceIcon,
+            icon: currentLocationIcon,
+            // icon: sourceIcon,
             position: sourceLocation,
             infoWindow: InfoWindow(
               //popup info
               title: 'source location ',
-              snippet: 'My Custom Subtitle',
+              // snippet: 'My Custom Subtitle',
             ),
           ),
           Marker(
@@ -200,7 +216,7 @@ class _BusTrackingViewState extends State<BusTrackingView> {
             infoWindow: InfoWindow(
               //popup info
               title: 'destination location ',
-              snippet: 'My Custom Subtitle',
+              // snippet: 'My Custom Subtitle',
             ),
           ),
         },

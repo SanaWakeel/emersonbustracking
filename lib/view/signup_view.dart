@@ -54,40 +54,44 @@ class _SignupViewState extends State<SignupView> {
           );
         });
     final pref = await SharedPreferences.getInstance();
-    UserCredential? result = await _auth.createUserWithEmailAndPassword(
-        email: _emailController.text.toString(),
-        password: _passwordController.text.toString());
-    print("jhsdgvasjvj");
-    print(result.user?.uid);
-    //     .then((value) {
-    //
-    //
-    //   // Utils.toastMessage(value.user!.email.toString());
-    // }).onError((error, stackTrace) {
-    //   Utils.toastMessage("Error : $error");
-    //   Navigator.of(context).pop();
-    // });
-    if (result.user != null) {
-      print("uid: ${result.user?.uid}");
-      String? nodeKey = databaseRef.push().key;
-      debugPrint("token from sharedP:${pref.getString("fcmToken")}");
-      SignUpModel signUpModel = SignUpModel(
-          id: result.user!.uid,
-          firstName: _fnameController.text,
-          lastName: _lnameController.text,
-          email: _emailController.text,
-          age: int.parse(_ageController.text),
-          deviceToken: pref.getString("fcmToken"),
-          timeStamp: DateTime.now().millisecondsSinceEpoch,
-          role: 1);
-      databaseRef
-          .child(result.user!.uid)
-          .set(signUpModel.toJson())
-          .then((value) {
-        Utils.toastMessage("Signup Success");
-        Navigator.of(context).pop();
-        Navigator.pushNamed(context, RouteName.home);
-      }).onError((error, stackTrace) => Utils.toastMessage(error.toString()));
+    try {
+      UserCredential? result = await _auth.createUserWithEmailAndPassword(
+          email: _emailController.text.toString(),
+          password: _passwordController.text.toString());
+
+      //     .then((value) {
+      //
+      //
+      //   // Utils.toastMessage(value.user!.email.toString());
+      // }).onError((error, stackTrace) {
+      //   Utils.toastMessage("Error : $error");
+      //   Navigator.of(context).pop();
+      // });
+      if (result.user != null) {
+        print("uid: ${result.user?.uid}");
+        String? nodeKey = databaseRef.push().key;
+        debugPrint("token from sharedP:${pref.getString("fcmToken")}");
+        SignUpModel signUpModel = SignUpModel(
+            id: result.user!.uid,
+            firstName: _fnameController.text,
+            lastName: _lnameController.text,
+            email: _emailController.text,
+            age: int.parse(_ageController.text),
+            deviceToken: pref.getString("fcmToken"),
+            timeStamp: DateTime.now().millisecondsSinceEpoch,
+            role: 1);
+        databaseRef
+            .child(result.user!.uid)
+            .set(signUpModel.toJson())
+            .then((value) {
+          Utils.toastMessage("Signup Success");
+          Navigator.of(context).pop();
+          Navigator.pushNamed(context, RouteName.home);
+        }).onError((error, stackTrace) => Utils.toastMessage(error.toString()));
+      }
+    } catch (e) {
+      Navigator.of(context).pop();
+      Utils.toastMessage("Error:$e");
     }
   }
 
