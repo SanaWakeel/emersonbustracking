@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:emersonbustracking/model/signup_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -83,11 +85,18 @@ class _SignupViewState extends State<SignupView> {
         databaseRef
             .child(result.user!.uid)
             .set(signUpModel.toJson())
-            .then((value) {
+            .then((value) async {
           Utils.toastMessage("Signup Success");
+          final prefs = await SharedPreferences.getInstance();
+          prefs.setString('userModel', json.encode(signUpModel));
           Navigator.of(context).pop();
-          Navigator.pushNamed(context, RouteName.home);
-        }).onError((error, stackTrace) => Utils.toastMessage(error.toString()));
+          Navigator.pushNamedAndRemoveUntil(
+              context, RouteName.home, (route) => false);
+          // Navigator.pushNamed(context, RouteName.home);
+        }).onError((error, stackTrace) {
+          Utils.toastMessage(error.toString());
+          Navigator.of(context).pop();
+        });
       }
     } catch (e) {
       Navigator.of(context).pop();
