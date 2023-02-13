@@ -12,6 +12,8 @@ import '../res/components/round_button.dart';
 import '../viewModel/auth_view_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import 'widgets/drawer_menu.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
 
@@ -165,6 +167,7 @@ class _HomeViewState extends State<HomeView> {
     final userPreference = Provider.of<UserViewModel>(context);
     final auth = FirebaseAuth.instance;
     return Scaffold(
+      drawer: DrawerMenu(),
       appBar: AppBar(
         centerTitle: true,
         automaticallyImplyLeading: false,

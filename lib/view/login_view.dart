@@ -71,6 +71,8 @@ class _LoginViewState extends State<LoginView> {
         if (signUpModel != null) {
           final prefs = await SharedPreferences.getInstance();
           prefs.setString('userModel', json.encode(signUpModel));
+          Utils.userName = "${signUpModel.firstName} ${signUpModel.lastName}";
+          Utils.registrationNo = signUpModel.registrationNo.toString();
           Utils.toastMessage("Login Success");
           print("role:${signUpModel.role}");
 

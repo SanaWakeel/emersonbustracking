@@ -25,6 +25,8 @@ class _SignupViewState extends State<SignupView> {
 
   final TextEditingController _fnameController = TextEditingController();
   final TextEditingController _lnameController = TextEditingController();
+  final TextEditingController _registrationNoController =
+      TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -77,6 +79,7 @@ class _SignupViewState extends State<SignupView> {
             id: result.user!.uid,
             firstName: _fnameController.text,
             lastName: _lnameController.text,
+            registrationNo: _registrationNoController.text,
             email: _emailController.text,
             age: int.parse(_ageController.text),
             deviceToken: pref.getString("fcmToken"),
@@ -87,6 +90,8 @@ class _SignupViewState extends State<SignupView> {
             .set(signUpModel.toJson())
             .then((value) async {
           Utils.toastMessage("Signup Success");
+          Utils.userName = "${signUpModel.firstName} ${signUpModel.lastName}";
+          Utils.registrationNo = signUpModel.registrationNo.toString();
           final prefs = await SharedPreferences.getInstance();
           prefs.setString('userModel', json.encode(signUpModel));
           Navigator.of(context).pop();

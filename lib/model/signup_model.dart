@@ -1,10 +1,11 @@
 class SignUpModel {
-  String? firstName, lastName, id, email, deviceToken;
+  String? firstName, lastName, id, email, deviceToken, registrationNo;
   int? role, age, timeStamp;
 
   SignUpModel(
       {this.firstName,
       this.lastName,
+      this.registrationNo,
       this.id,
       this.email,
       this.deviceToken,
@@ -16,6 +17,7 @@ class SignUpModel {
   SignUpModel.fromJson(Map<String, dynamic> json)
       : firstName = json['firstName'],
         lastName = json['lastName'],
+        registrationNo = json['registrationNo'],
         id = json['id'],
         email = json['email'],
         deviceToken = json['deviceToken'],
@@ -26,6 +28,7 @@ class SignUpModel {
   Map<String, dynamic> toJson() => {
         'firstName': firstName,
         'lastName': lastName,
+        'registrationNo': registrationNo,
         'id': id,
         'email': email,
         'deviceToken': deviceToken,

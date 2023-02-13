@@ -5,6 +5,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class Utils {
   static const String googleApiKey = "AIzaSyDXRCj0868fNVIVvBvLVMnwjgZUT43f1c8";
+  static String userName = "";
+  static String registrationNo = "";
 
   static void fieldFocusChange(
       BuildContext context, FocusNode current, FocusNode nextFocus) {

@@ -12,6 +12,8 @@ import '../res/components/round_button.dart';
 import '../viewModel/auth_view_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import 'widgets/drawer_menu.dart';
+
 class CustomerHomeView extends StatefulWidget {
   const CustomerHomeView({Key? key}) : super(key: key);
 
@@ -104,10 +106,18 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
     final auth = FirebaseAuth.instance;
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
         title: const Text('Student Dashboard'),
-        actions: [
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        actions: <Widget>[
           IconButton(
             onPressed: () {
               showDialog(
@@ -134,7 +144,10 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
             icon: const Icon(Icons.logout_outlined),
           ),
         ],
+        centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
+      drawer: DrawerMenu(),
       body: SafeArea(
         child: Column(
           children: [
