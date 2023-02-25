@@ -38,6 +38,7 @@ class _SignupViewState extends State<SignupView> {
   FocusNode ageFocusNode = FocusNode();
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
+  FocusNode registrationFocusNode = FocusNode();
   final _auth = FirebaseAuth.instance;
 
   void dispose() {
@@ -46,6 +47,7 @@ class _SignupViewState extends State<SignupView> {
     _passwordController.dispose();
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
+    registrationFocusNode.dispose();
     obsurePassword.dispose();
   }
 
@@ -92,6 +94,7 @@ class _SignupViewState extends State<SignupView> {
           Utils.toastMessage("Signup Success");
           Utils.userName = "${signUpModel.firstName} ${signUpModel.lastName}";
           Utils.registrationNo = signUpModel.registrationNo.toString();
+          Utils.UserType = signUpModel.role!;
           final prefs = await SharedPreferences.getInstance();
           prefs.setString('userModel', json.encode(signUpModel));
           Navigator.of(context).pop();
@@ -173,11 +176,31 @@ class _SignupViewState extends State<SignupView> {
                       ),
                       onFieldSubmitted: (value) {
                         Utils.fieldFocusChange(
-                            context, lnameFocusNode, ageFocusNode);
+                            context, lnameFocusNode, registrationFocusNode);
                       },
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter last name";
+                        }
+                        return null;
+                      },
+                    ),
+                    TextFormField(
+                      keyboardType: TextInputType.name,
+                      controller: _registrationNoController,
+                      focusNode: registrationFocusNode,
+                      decoration: const InputDecoration(
+                        hintText: "registration number",
+                        label: Text("Registration Number"),
+                        // prefixIcon: Icon(Icons.person),
+                      ),
+                      onFieldSubmitted: (value) {
+                        Utils.fieldFocusChange(
+                            context, registrationFocusNode, ageFocusNode);
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter registration number";
                         }
                         return null;
                       },

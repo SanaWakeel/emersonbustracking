@@ -167,12 +167,19 @@ class _HomeViewState extends State<HomeView> {
     final userPreference = Provider.of<UserViewModel>(context);
     final auth = FirebaseAuth.instance;
     return Scaffold(
-      drawer: DrawerMenu(),
       appBar: AppBar(
-        centerTitle: true,
-        automaticallyImplyLeading: false,
         title: const Text('Admin Dashboard'),
-        actions: [
+        leading: Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        actions: <Widget>[
           IconButton(
             onPressed: () {
               showDialog(
@@ -186,6 +193,7 @@ class _HomeViewState extends State<HomeView> {
               auth.signOut().then((value) async {
                 final prefs = await SharedPreferences.getInstance();
                 await prefs.remove('userModel');
+                // final pref = await SharedPreferences.getInstance();
                 // pref.setBool('showHome', false);
                 Navigator.of(context).pop();
                 Navigator.pushNamedAndRemoveUntil(
@@ -198,17 +206,10 @@ class _HomeViewState extends State<HomeView> {
             icon: const Icon(Icons.logout_outlined),
           ),
         ],
+        centerTitle: true,
+        automaticallyImplyLeading: false,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, RouteName.firebase);
-        },
-        child: Icon(
-          Icons.add,
-          color: AppColors.white,
-        ),
-        backgroundColor: AppColors.primaryColor,
-      ),
+      drawer: DrawerMenu(),
       body: SafeArea(
         child: Column(
           children: [

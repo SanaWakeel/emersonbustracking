@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:emersonbustracking/enum/user_type.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -73,6 +74,7 @@ class _LoginViewState extends State<LoginView> {
           prefs.setString('userModel', json.encode(signUpModel));
           Utils.userName = "${signUpModel.firstName} ${signUpModel.lastName}";
           Utils.registrationNo = signUpModel.registrationNo.toString();
+          Utils.UserType = signUpModel.role!;
           Utils.toastMessage("Login Success");
           print("role:${signUpModel.role}");
 
@@ -80,11 +82,11 @@ class _LoginViewState extends State<LoginView> {
           signUpModelShared = SignUpModel.fromJson(signUpModelShared);
           debugPrint("SignUpModel Role SharedPreference:${signUpModelShared}");
           Navigator.of(context).pop();
-          if (signUpModelShared!.role == 0) {
+          if (signUpModelShared!.role == UserType.admin.index) {
             // Navigator.of(context).pushNamedAndRemoveUntil(
             //     RouteName.adminHome, (Route<dynamic> route) => false);
             Navigator.pushReplacementNamed(context, RouteName.adminHome);
-          } else {
+          } else if (signUpModelShared!.role == UserType.user.index) {
             Navigator.pushReplacementNamed(context, RouteName.home);
             // Navigator.of(context).pushNamedAndRemoveUntil(
             //     RouteName.home, (Route<dynamic> route) => false);

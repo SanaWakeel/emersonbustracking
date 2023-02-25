@@ -1,11 +1,42 @@
 import 'package:emersonbustracking/res/colors.dart';
 import 'package:flutter/material.dart';
 
+import '../../enum/user_type.dart';
 import '../../utils/utils.dart';
 
 class DrawerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final List<Widget> listTiles =
+        Utils.UserType == UserType.admin.index //admin
+            ? [
+                ListTile(
+                  title: Text('Manage Students'),
+                  onTap: () {
+                    // ...
+                  },
+                ),
+                ListTile(
+                  title: Text('Manage Feedback'),
+                  onTap: () {
+                    // ...
+                  },
+                ),
+              ]
+            : [
+                ListTile(
+                  title: Text('My Profile'),
+                  onTap: () {
+                    // ...
+                  },
+                ),
+                ListTile(
+                  title: Text('My Route'),
+                  onTap: () {
+                    // ...
+                  },
+                ),
+              ];
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -66,24 +97,7 @@ class DrawerMenu extends StatelessWidget {
                   // Text(headItem.title, style: const TextStyle(color: Colors.black, fontSize: 20),),
                 ],
               )),
-          ListTile(
-            title: Text('Item 1'),
-            onTap: () {
-              // Navigate to the first screen
-            },
-          ),
-          ListTile(
-            title: Text('Item 2'),
-            onTap: () {
-              // Navigate to the second screen
-            },
-          ),
-          ListTile(
-            title: Text('Item 3'),
-            onTap: () {
-              // Navigate to the third screen
-            },
-          ),
+          ...listTiles,
         ],
       ),
     );
