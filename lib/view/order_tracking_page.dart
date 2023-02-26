@@ -22,13 +22,14 @@ class BusTrackingView extends StatefulWidget {
 class _BusTrackingViewState extends State<BusTrackingView> {
   final Completer<GoogleMapController> _controller = Completer();
   static const LatLng sourceLocation =
-      LatLng(31.49470267942731, 74.31815207927605); //lahore
+      LatLng(30.22300833151172, 71.47852601952798); //lahore
+  // LatLng(31.49470267942731, 74.31815207927605); //lahore
 
   // LatLng(37.33500926,-122.03272188);
   static const LatLng destination =
       // LatLng(37.33429383,-122.06600055);
       // LatLng(31.497036952477234, 74.30338689365222); //lahore
-      LatLng(31.491377441157386, 74.23256111536254); //lahore
+      LatLng(30.174355958999577, 71.50859138593815); //lahore
   List<LatLng> polylineCoordinates = [];
   LocationData? currentLocation;
 
@@ -79,7 +80,7 @@ class _BusTrackingViewState extends State<BusTrackingView> {
       currentLocation = newlocation;
       googleMapController
           .animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-              zoom: 11.5,
+              zoom: 0.0,
               target: LatLng(
                 newlocation.latitude!,
                 newlocation.longitude!,
@@ -174,7 +175,9 @@ class _BusTrackingViewState extends State<BusTrackingView> {
       ),
       body: GoogleMap(
         initialCameraPosition: CameraPosition(
-            target: LatLng(31.509598519874956, 74.2716363016269),
+            target: LatLng(30.207122137325996, 71.47870209642313),
+            // target: LatLng(30.200385485010393, 71.47812469871396),
+            // target: LatLng(31.509598519874956, 74.2716363016269),
             // target: LatLng(sourceLocation.latitude, sourceLocation.longitude),
             zoom: 12),
         // CameraPosition(target: sourceLocation, zoom: 13.5),
@@ -196,7 +199,8 @@ class _BusTrackingViewState extends State<BusTrackingView> {
             ),
             icon: sourceIcon,
             // icon: currentLocationIcon,
-            position: LatLng(31.50708592305328, 74.26277550690618),
+            position: LatLng(30.216947165550714, 71.49194943011416),
+            // position: LatLng(31.50708592305328, 74.26277550690618),
           ),
           Marker(
             markerId: const MarkerId("source"),
