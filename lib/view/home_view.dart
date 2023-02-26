@@ -12,6 +12,7 @@ import '../res/components/round_button.dart';
 import '../viewModel/auth_view_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
+import 'edit_bus_route_screen.dart';
 import 'widgets/drawer_menu.dart';
 
 class HomeView extends StatefulWidget {
@@ -127,8 +128,75 @@ class _HomeViewState extends State<HomeView> {
                       child: ListTile(
                         onTap: () {
                           Navigator.pop(context);
-                          showMyDialog(snapshot.child('lname').value.toString(),
-                              snapshot.child('id').value.toString());
+                          showModalBottomSheet(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return EditBusRouteScreen(
+                                busRouteNumber: int.parse(snapshot
+                                    .child('busRouteNumber')
+                                    .value
+                                    .toString()),
+                                sourceLocationName: snapshot
+                                    .child('sourceLocationName')
+                                    .value
+                                    .toString(),
+                                sourceLocationLatitude: snapshot
+                                    .child('sourceLocationLatitude')
+                                    .value
+                                    .toString(),
+                                sourceLocationLongitude: snapshot
+                                    .child('sourceLocationLongitude')
+                                    .value
+                                    .toString(),
+                                destinationLocationName: snapshot
+                                    .child('destinationLocationName')
+                                    .value
+                                    .toString(),
+                                destinationLocationLatitude: snapshot
+                                    .child('destinationLocationLatitude')
+                                    .value
+                                    .toString(),
+                                destinationLocationLongitude: snapshot
+                                    .child('destinationLocationLongitude')
+                                    .value
+                                    .toString(),
+                                onItemSaved: (int _busRouteNumber,
+                                    String sourceLocation,
+                                    double sourceLocationLongitude,
+                                    double sourceLocationLatitude,
+                                    String destinationLocationName,
+                                    double destinationLocationLatitude,
+                                    double destinationLocationLongitude) {
+                                  // setState(() {
+                                  databaseRef
+                                      .child(
+                                          snapshot.child('id').value.toString())
+                                      .update({
+                                    // 'fname': editController.text.toString(),
+                                    'busRouteNumber': _busRouteNumber,
+                                    'sourceLocationName': sourceLocation,
+                                    'sourceLocationLatitude':
+                                        sourceLocationLatitude,
+                                    'sourceLocationLongitude':
+                                        sourceLocationLongitude,
+                                    'destinationLocationName': sourceLocation,
+                                    'destinationLocationLatitude':
+                                        destinationLocationLatitude,
+                                    'destinationLocationLongitude':
+                                        destinationLocationLongitude,
+                                  }).then((value) {
+                                    Utils.toastMessage('updated');
+                                  }).onError((error, stackTrace) =>
+                                          Utils.toastMessage(error.toString()));
+                                  // items[index] = newItem;
+                                  // });
+                                  Navigator.pop(context);
+                                },
+                              );
+                              /*  showMyDialog(snapshot.child('lname').value.toString(),
+                              snapshot.child('id').value.toString());  */
+                            },
+                          );
                         },
                         leading: Icon(Icons.edit),
                         title: Text('Edit'),
