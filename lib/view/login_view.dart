@@ -75,7 +75,7 @@ class _LoginViewState extends State<LoginView> {
           Utils.userName = "${signUpModel.firstName} ${signUpModel.lastName}";
           Utils.registrationNo = signUpModel.registrationNo.toString();
           Utils.UserType = signUpModel.role!;
-          Utils.toastMessage("Login Success");
+          Utils.toastMessage("Login Success", AppColors.successToast);
           print("role:${signUpModel.role}");
 
           var signUpModelShared = json.decode(prefs.getString('userModel')!);
@@ -118,7 +118,7 @@ class _LoginViewState extends State<LoginView> {
       }
     } catch (e) {
       Navigator.of(context).pop();
-      Utils.toastMessage("Error:$e");
+      Utils.toastMessage("Error:$e", AppColors.errorToast);
     }
 
     // await _auth

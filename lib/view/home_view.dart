@@ -186,9 +186,11 @@ class _HomeViewState extends State<HomeView> {
                                     'destinationLocationLongitude':
                                         destinationLocationLongitude,
                                   }).then((value) {
-                                    Utils.toastMessage('updated');
+                                    Utils.toastMessage(
+                                        'updated', AppColors.successToast);
                                   }).onError((error, stackTrace) =>
-                                          Utils.toastMessage(error.toString()));
+                                          Utils.toastMessage(error.toString(),
+                                              AppColors.errorToast));
                                   // items[index] = newItem;
                                   // });
                                   Navigator.pop(context);
@@ -268,7 +270,7 @@ class _HomeViewState extends State<HomeView> {
                 Navigator.pushNamedAndRemoveUntil(
                     context, RouteName.login, (route) => false);
               }).onError((error, stackTrace) {
-                Utils.toastMessage(error.toString());
+                Utils.toastMessage(error.toString(), AppColors.errorToast);
                 Navigator.of(context).pop();
               });
             },
@@ -376,9 +378,9 @@ class _HomeViewState extends State<HomeView> {
                         .child('id')
                         .update({'fname': editController.text.toString()}).then(
                             (value) {
-                      Utils.toastMessage('updated');
-                    }).onError((error, stackTrace) =>
-                            Utils.toastMessage(error.toString()));
+                      Utils.toastMessage('updated', AppColors.successToast);
+                    }).onError((error, stackTrace) => Utils.toastMessage(
+                            error.toString(), AppColors.errorToast));
                   },
                   child: Text("Update")),
             ],

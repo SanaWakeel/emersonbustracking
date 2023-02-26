@@ -15,10 +15,10 @@ class Utils {
     FocusScope.of(context).requestFocus(nextFocus);
   }
 
-  static toastMessage(String message) {
+  static toastMessage(String message, Color color) {
     Fluttertoast.showToast(
         msg: message,
-        backgroundColor: Colors.red,
+        backgroundColor: color,
         textColor: Colors.white,
         toastLength: Toast.LENGTH_LONG);
   }

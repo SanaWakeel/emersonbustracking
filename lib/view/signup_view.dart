@@ -91,7 +91,7 @@ class _SignupViewState extends State<SignupView> {
             .child(result.user!.uid)
             .set(signUpModel.toJson())
             .then((value) async {
-          Utils.toastMessage("Signup Success");
+          Utils.toastMessage("Signup Success", AppColors.successToast);
           Utils.userName = "${signUpModel.firstName} ${signUpModel.lastName}";
           Utils.registrationNo = signUpModel.registrationNo.toString();
           Utils.UserType = signUpModel.role!;
@@ -102,13 +102,13 @@ class _SignupViewState extends State<SignupView> {
               context, RouteName.home, (route) => false);
           // Navigator.pushNamed(context, RouteName.home);
         }).onError((error, stackTrace) {
-          Utils.toastMessage(error.toString());
+          Utils.toastMessage(error.toString(), AppColors.errorToast);
           Navigator.of(context).pop();
         });
       }
     } catch (e) {
       Navigator.of(context).pop();
-      Utils.toastMessage("Error:$e");
+      Utils.toastMessage("Error:$e", AppColors.errorToast);
     }
   }
 

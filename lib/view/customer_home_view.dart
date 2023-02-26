@@ -137,7 +137,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                 Navigator.pushNamedAndRemoveUntil(
                     context, RouteName.login, (route) => false);
               }).onError((error, stackTrace) {
-                Utils.toastMessage(error.toString());
+                Utils.toastMessage(error.toString(), AppColors.errorToast);
                 Navigator.of(context).pop();
               });
             },

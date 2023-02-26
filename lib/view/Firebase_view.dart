@@ -103,9 +103,10 @@ class _FirebaseViewState extends State<FirebaseView> {
     );
 
     databaseRef.child(nodeKey!).set(busRouteModel.toJson()).then((value) {
-      Utils.toastMessage("Successfully Added");
+      Utils.toastMessage("Successfully Added", AppColors.successToast);
       Navigator.of(context).pop();
-    }).onError((error, stackTrace) => Utils.toastMessage(error.toString()));
+    }).onError((error, stackTrace) =>
+        Utils.toastMessage(error.toString(), AppColors.errorToast));
   }
 
   @override
