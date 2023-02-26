@@ -179,7 +179,8 @@ class _HomeViewState extends State<HomeView> {
                                         sourceLocationLatitude,
                                     'sourceLocationLongitude':
                                         sourceLocationLongitude,
-                                    'destinationLocationName': sourceLocation,
+                                    'destinationLocationName':
+                                        destinationLocationName,
                                     'destinationLocationLatitude':
                                         destinationLocationLatitude,
                                     'destinationLocationLongitude':
