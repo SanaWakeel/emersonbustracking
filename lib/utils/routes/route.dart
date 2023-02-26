@@ -5,8 +5,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/signup_model.dart';
 import '../../view/Firebase_view.dart';
 import '../../view/customer_home_view.dart';
+import '../../view/feedback_from_students.dart';
 import '../../view/home_view.dart';
 import '../../view/login_view.dart';
+import '../../view/manage_feedback_view.dart';
 import '../../view/signup_view.dart';
 import '../../view/onboarding/onboarding_view.dart';
 import '../../view/order_tracking_page.dart';
@@ -52,6 +54,13 @@ class Routes {
       case RouteName.manageStudents:
         return MaterialPageRoute(
             builder: (BuildContext context) => const StudentsView());
+      case RouteName.giveFeedback:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const FeedbackStudentsView());
+
+      case RouteName.manageFeedbackView:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const ManageFeedbackView());
       default:
         return MaterialPageRoute(builder: (_) {
           return const Scaffold(

@@ -1,6 +1,7 @@
 import 'package:emersonbustracking/res/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../enum/user_type.dart';
 import '../../utils/routes/route_name.dart';
 import '../../utils/utils.dart';
@@ -8,34 +9,44 @@ import '../../utils/utils.dart';
 class DrawerMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final auth = FirebaseAuth.instance;
     final List<Widget> listTiles =
         Utils.UserType == UserType.admin.index //admin
             ? [
                 ListTile(
+                  title: Text('Dashboard'),
+                  onTap: () {
+                    Navigator.pushNamed(context, RouteName.adminHome);
+                  },
+                ),
+                ListTile(
                   title: Text('Manage Students'),
                   onTap: () {
                     Navigator.pushNamed(context, RouteName.manageStudents);
-                    // ...
                   },
                 ),
                 ListTile(
                   title: Text('Manage Feedback'),
                   onTap: () {
-                    // ...
+                    Navigator.pushNamed(context, RouteName.manageFeedbackView);
                   },
                 ),
               ]
             : [
                 ListTile(
-                  title: Text('My Profile'),
+                  title: Text('Dashboard'),
                   onTap: () {
-                    // ...
+                    Navigator.pushNamed(context, RouteName.home);
                   },
                 ),
+                /* ListTile(
+                  title: Text('My Profile'),
+                  onTap: () {},
+                ), */
                 ListTile(
-                  title: Text('My Route'),
+                  title: Text('Give FeedBack'),
                   onTap: () {
-                    // ...
+                    Navigator.pushNamed(context, RouteName.giveFeedback);
                   },
                 ),
               ];
@@ -82,10 +93,23 @@ class DrawerMenu extends StatelessWidget {
                             heroTag: "backbtn",
                             mini: true,
                             elevation: 15,
-                            tooltip: "Back",
+                            tooltip: "sign out",
                             //focusElevation: 15,
                             backgroundColor: AppColors.btnColor,
-                            onPressed: () async {},
+                            onPressed: () async {
+                              auth.signOut().then((value) async {
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.remove('userModel');
+                                Navigator.of(context).pop();
+                                Navigator.pushNamedAndRemoveUntil(
+                                    context, RouteName.login, (route) => false);
+                              }).onError((error, stackTrace) {
+                                Utils.toastMessage(
+                                    error.toString(), AppColors.errorToast);
+                                Navigator.of(context).pop();
+                              });
+                            },
                             child: Image.asset(
                               'lib/res/images/logout.png',
                               height: 20,

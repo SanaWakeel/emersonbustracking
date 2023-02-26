@@ -9,4 +9,6 @@ class RouteName {
   static const String map = 'map_screen';
   static const String firebase = 'firebase_screen';
   static const String manageStudents = 'manageStudents_screen';
+  static const String giveFeedback = 'giveFeedback_screen';
+  static const String manageFeedbackView = 'manageFeedbackView_screen';
 }

@@ -9,21 +9,20 @@ import '../res/colors.dart';
 import '../utils/routes/route_name.dart';
 import '../viewModel/user_view_model.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'edit_bus_route_screen.dart';
 import 'widgets/drawer_menu.dart';
 
-class StudentsView extends StatefulWidget {
-  const StudentsView({Key? key}) : super(key: key);
+class ManageFeedbackView extends StatefulWidget {
+  const ManageFeedbackView({Key? key}) : super(key: key);
 
   @override
-  State<StudentsView> createState() => _StudentsViewState();
+  State<ManageFeedbackView> createState() => _ManageFeedbackViewState();
 }
 
-class _StudentsViewState extends State<StudentsView> {
+class _ManageFeedbackViewState extends State<ManageFeedbackView> {
   final textStyleHeading =
       const TextStyle(color: AppColors.white, fontSize: 22);
   final textStyleLabel = const TextStyle(color: AppColors.white, fontSize: 15);
-  final databaseRef = FirebaseDatabase.instance.ref('User');
+  final databaseRef = FirebaseDatabase.instance.ref('Feedback');
   final searchFilter = TextEditingController();
   final editController = TextEditingController();
 
@@ -71,42 +70,21 @@ class _StudentsViewState extends State<StudentsView> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
-                      "Name:",
+                      "Feedback:",
                       style: textStyleLabel,
                     ),
                     SizedBox(
                       width: 10,
                     ),
                     Text(
-                      snapshot.child('firstName').value.toString() +
-                          " " +
-                          snapshot.child('lastName').value.toString(),
-                      style: textStyleLabel,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "age:",
-                      style: textStyleLabel,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      snapshot.child('age').value.toString(),
+                      snapshot.child('feedback').value.toString(),
                       style: textStyleLabel,
                     ),
                   ],
                 ),
               ],
             ),
-            Positioned(
+            /*  Positioned(
               right: 5,
               bottom: 20,
               child: PopupMenuButton(
@@ -211,6 +189,7 @@ class _StudentsViewState extends State<StudentsView> {
                 ],
               ),
             ),
+           */
           ],
         ),
       ),
@@ -221,7 +200,6 @@ class _StudentsViewState extends State<StudentsView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    debugPrint("adim page init");
     databaseRef.onValue.listen((event) {}); // through stream get all data
   }
 
@@ -231,7 +209,7 @@ class _StudentsViewState extends State<StudentsView> {
     final auth = FirebaseAuth.instance;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Manage Students'),
+        title: const Text('Manage Feedback'),
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
@@ -284,7 +262,7 @@ class _StudentsViewState extends State<StudentsView> {
               child: TextFormField(
                 controller: searchFilter,
                 decoration: InputDecoration(
-                  hintText: "enter registration number or name",
+                  hintText: "enter registration number",
                   border: OutlineInputBorder(),
                 ),
                 onChanged: (String value) {
@@ -292,54 +270,25 @@ class _StudentsViewState extends State<StudentsView> {
                 },
               ),
             ),
-
             Expanded(
               child: FirebaseAnimatedList(
                   query: databaseRef,
                   defaultChild: Text('Loading'),
                   itemBuilder: (context, snapshot, animation, index) {
-                    final title =
+                    final registrationNo =
                         snapshot.child('registrationNo').value.toString();
-                    final name = snapshot.child('firstName').value.toString() +
-                        " " +
-                        snapshot.child('lastName').value.toString();
+
                     if (searchFilter.text.isEmpty) {
                       return BusRoutesList(snapshot);
-                    } else if (title.toLowerCase().contains(
-                            searchFilter.text.toLowerCase().toString()) ||
-                        name.toLowerCase().contains(
-                            searchFilter.text.toLowerCase().toString())) {
+                    } else if (registrationNo
+                        .toLowerCase()
+                        .contains(searchFilter.text.toLowerCase().toString())) {
                       return BusRoutesList(snapshot);
                     } else {
                       return Container();
                     }
                   }),
             ),
-
-            // Expanded(
-            //     child: StreamBuilder(
-            //       stream: databaseRef.onValue,
-            //       builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
-            //         if (!snapshot.hasData) {
-            //           return CircularProgressIndicator();
-            //         } else {
-            //           Map<dynamic, dynamic> map =
-            //           snapshot.data!.snapshot.value as dynamic;
-            //           List<dynamic> list = [];
-            //           list.clear();
-            //           list = map.values.toList();
-            //           return ListView.builder(
-            //             itemCount: snapshot.data!.snapshot.children.length,
-            //             itemBuilder: (context, index) {
-            //               return ListTile(
-            //                 title: Text(list[index]['fname']),
-            //                 subtitle: Text(list[index]['id']),
-            //               );
-            //             },
-            //           );
-            //         }
-            //       },
-            //     )),
           ],
         ),
       ),
