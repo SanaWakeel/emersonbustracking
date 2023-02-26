@@ -8,8 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../res/colors.dart';
 import '../utils/routes/route_name.dart';
 import '../viewModel/user_view_model.dart';
-import '../res/components/round_button.dart';
-import '../viewModel/auth_view_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 import 'widgets/drawer_menu.dart';

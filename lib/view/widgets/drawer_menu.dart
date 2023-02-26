@@ -2,6 +2,7 @@ import 'package:emersonbustracking/res/colors.dart';
 import 'package:flutter/material.dart';
 
 import '../../enum/user_type.dart';
+import '../../utils/routes/route_name.dart';
 import '../../utils/utils.dart';
 
 class DrawerMenu extends StatelessWidget {
@@ -13,6 +14,7 @@ class DrawerMenu extends StatelessWidget {
                 ListTile(
                   title: Text('Manage Students'),
                   onTap: () {
+                    Navigator.pushNamed(context, RouteName.manageStudents);
                     // ...
                   },
                 ),

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import '../../../enum/user_type.dart';
 import '../../../model/signup_model.dart';
 import '../../../utils/routes/route_name.dart';
+import '../../../utils/utils.dart';
 
 class SplashServices {
   void isLogin(BuildContext context) async {
@@ -26,11 +27,13 @@ class SplashServices {
         signUpModel = SignUpModel.fromJson(signUpModel);
         debugPrint("SignUpModel Role:${signUpModel}");
         if (signUpModel!.role == UserType.admin.index) {
+          Utils.UserType = 0;
           Timer(
               const Duration(seconds: 3),
               () =>
                   Navigator.pushReplacementNamed(context, RouteName.adminHome));
         } else if (signUpModel!.role == UserType.user.index) {
+          Utils.UserType = 1;
           Timer(const Duration(seconds: 3),
               () => Navigator.pushReplacementNamed(context, RouteName.home));
         }

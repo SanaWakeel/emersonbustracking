@@ -12,6 +12,7 @@ import '../../view/onboarding/onboarding_view.dart';
 import '../../view/order_tracking_page.dart';
 import '../../view/splash_view.dart';
 import '../../view/map_page.dart';
+import '../../view/students_view.dart';
 import 'route_name.dart';
 
 class Routes {
@@ -48,6 +49,9 @@ class Routes {
       case RouteName.onboarding:
         return MaterialPageRoute(
             builder: (BuildContext context) => const OnboardingView());
+      case RouteName.manageStudents:
+        return MaterialPageRoute(
+            builder: (BuildContext context) => const StudentsView());
       default:
         return MaterialPageRoute(builder: (_) {
           return const Scaffold(
