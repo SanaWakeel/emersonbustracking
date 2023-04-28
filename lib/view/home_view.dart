@@ -281,6 +281,16 @@ class _HomeViewState extends State<HomeView> {
         automaticallyImplyLeading: false,
       ),
       drawer: DrawerMenu(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, RouteName.firebase);
+        },
+        child: Icon(
+          Icons.add,
+          color: AppColors.white,
+        ),
+        backgroundColor: AppColors.primaryColor,
+      ),
       body: SafeArea(
         child: Column(
           children: [
