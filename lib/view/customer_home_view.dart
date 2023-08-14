@@ -27,7 +27,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
   final searchFilter = TextEditingController();
   final editController = TextEditingController();
 
-  Widget BusRoutesList(DataSnapshot snapshot) {
+  Widget busRoutesList(DataSnapshot snapshot) {
     return ReusableCard(
         onPress: () {
           Navigator.pushNamed(context, RouteName.bustracking);
@@ -36,7 +36,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
         cardChild: Container(
           width: double.infinity,
           height: 120,
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +47,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                   style: textStyleHeading,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -57,7 +57,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                     "From:",
                     style: textStyleLabel,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
                   Text(
@@ -66,7 +66,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -76,7 +76,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                     "To:",
                     style: textStyleLabel,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 30,
                   ),
                   Text(
@@ -108,7 +108,7 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(Icons.menu),
+              icon: const Icon(Icons.menu),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -131,8 +131,9 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
                 await prefs.remove('userModel');
                 // final pref = await SharedPreferences.getInstance();
                 // pref.setBool('showHome', false);
-                Navigator.of(context).pop();
-                Navigator.pushNamedAndRemoveUntil(
+                if (context.mounted) Navigator.of(context).pop();
+
+                var pushNamedAndRemoveUntil = Navigator.pushNamedAndRemoveUntil(
                     context, RouteName.login, (route) => false);
               }).onError((error, stackTrace) {
                 Utils.toastMessage(error.toString(), AppColors.errorToast);
@@ -149,14 +150,14 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextFormField(
                 controller: searchFilter,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Search bus root number",
                   border: OutlineInputBorder(),
                 ),
@@ -168,16 +169,16 @@ class _CustomerHomeViewState extends State<CustomerHomeView> {
             Expanded(
               child: FirebaseAnimatedList(
                   query: databaseRef,
-                  defaultChild: Text('Loading'),
+                  defaultChild: const Text('Loading'),
                   itemBuilder: (context, snapshot, animation, index) {
                     final title =
                         snapshot.child('busRouteNumber').value.toString();
                     if (searchFilter.text.isEmpty) {
-                      return BusRoutesList(snapshot);
+                      return busRoutesList(snapshot);
                     } else if (title
                         .toLowerCase()
                         .contains(searchFilter.text.toLowerCase().toString())) {
-                      return BusRoutesList(snapshot);
+                      return busRoutesList(snapshot);
                     } else {
                       return Container();
                     }

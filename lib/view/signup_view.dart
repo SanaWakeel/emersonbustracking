@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:emersonbustracking/model/signup_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -41,6 +42,7 @@ class _SignupViewState extends State<SignupView> {
   FocusNode registrationFocusNode = FocusNode();
   final _auth = FirebaseAuth.instance;
 
+  @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
@@ -74,7 +76,9 @@ class _SignupViewState extends State<SignupView> {
       //   Navigator.of(context).pop();
       // });
       if (result.user != null) {
-        print("uid: ${result.user?.uid}");
+        if (kDebugMode) {
+          print("uid: ${result.user?.uid}");
+        }
         String? nodeKey = databaseRef.push().key;
         debugPrint("token from sharedP:${pref.getString("fcmToken")}");
         SignUpModel signUpModel = SignUpModel(
@@ -94,10 +98,10 @@ class _SignupViewState extends State<SignupView> {
           Utils.toastMessage("Signup Success", AppColors.successToast);
           Utils.userName = "${signUpModel.firstName} ${signUpModel.lastName}";
           Utils.registrationNo = signUpModel.registrationNo.toString();
-          Utils.UserType = signUpModel.role!;
+          Utils.userType = signUpModel.role!;
           final prefs = await SharedPreferences.getInstance();
           prefs.setString('userModel', json.encode(signUpModel));
-          Navigator.of(context).pop();
+          if (context.mounted) Navigator.of(context).pop();
           Navigator.pushNamedAndRemoveUntil(
               context, RouteName.home, (route) => false);
           // Navigator.pushNamed(context, RouteName.home);
@@ -141,9 +145,9 @@ class _SignupViewState extends State<SignupView> {
                 child: Column(
                   children: [
                     CircleAvatar(
-                      child: Image.asset('lib/res/images/bus_circle.png'),
                       backgroundColor: AppColors.white,
                       maxRadius: 80,
+                      child: Image.asset('lib/res/images/bus_circle.png'),
                     ),
                     TextFormField(
                       keyboardType: TextInputType.name,

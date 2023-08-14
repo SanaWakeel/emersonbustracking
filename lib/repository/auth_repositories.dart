@@ -10,7 +10,8 @@ class AuthRepository {
       dynamic response = _apiService.getPostApiResponse(AppUrl.loginUrl, data);
       return response;
     } catch (ex) {
-      throw ex;
+      rethrow; 
+      // ex;
     }
   }
 
@@ -20,7 +21,8 @@ class AuthRepository {
           _apiService.getPostApiResponse(AppUrl.registerUrl, data);
       return response;
     } catch (ex) {
-      throw ex;
+      rethrow;
+      // throw ex;
     }
   }
 }

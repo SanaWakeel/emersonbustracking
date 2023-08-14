@@ -13,7 +13,7 @@ class EditBusRouteScreen extends StatefulWidget {
   final Function(int, String, double, double, String, double, double)
       onItemSaved;
 
-  EditBusRouteScreen(
+  const EditBusRouteScreen(
       {required this.busRouteNumber,
       required this.sourceLocationName,
       required this.sourceLocationLatitude,
@@ -79,7 +79,7 @@ class _EditBusRouteScreenState extends State<EditBusRouteScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
         reverse: true,
         padding: const EdgeInsets.all(32),
@@ -90,9 +90,9 @@ class _EditBusRouteScreenState extends State<EditBusRouteScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text("Bus Route information"),
+              const Text("Bus Route information"),
               TextFormField(
-                keyboardType: TextInputType.numberWithOptions(decimal: false),
+                keyboardType: const TextInputType.numberWithOptions(decimal: false),
                 controller: _busRouteNumberController,
                 focusNode: routeNumberFocusNode,
                 decoration: const InputDecoration(
@@ -132,7 +132,7 @@ class _EditBusRouteScreenState extends State<EditBusRouteScreen> {
                 },
               ),
               TextFormField(
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 controller: _sourceLocationLongitudeController,
                 focusNode: sourceLocationLongitudeFocusNode,
                 decoration: const InputDecoration(
@@ -154,7 +154,7 @@ class _EditBusRouteScreenState extends State<EditBusRouteScreen> {
                 },
               ),
               TextFormField(
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 controller: _sourceLocationLatitudeController,
                 focusNode: sourceLocationLatitudeNode,
                 decoration: const InputDecoration(
@@ -196,7 +196,7 @@ class _EditBusRouteScreenState extends State<EditBusRouteScreen> {
                 },
               ),
               TextFormField(
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 controller: _destinationLocationLatitudeController,
                 focusNode: destinationLocationLatitudeFocusNode,
                 decoration: const InputDecoration(
@@ -218,7 +218,7 @@ class _EditBusRouteScreenState extends State<EditBusRouteScreen> {
                 },
               ),
               TextFormField(
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                keyboardType: const TextInputType.numberWithOptions(decimal: true),
                 controller: _destinationLocationLongitudeController,
                 focusNode: destinationLocationLongitudeFocusNode,
                 decoration: const InputDecoration(
@@ -255,7 +255,7 @@ class _EditBusRouteScreenState extends State<EditBusRouteScreen> {
                     );
                   }
                 },
-                child: Text('Update'),
+                child: const Text('Update'),
               ),
             ],
           ),

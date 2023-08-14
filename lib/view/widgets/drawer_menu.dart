@@ -11,22 +11,22 @@ class DrawerMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance;
     final List<Widget> listTiles =
-        Utils.UserType == UserType.admin.index //admin
+        Utils.userType == UserType.admin.index //admin
             ? [
                 ListTile(
-                  title: Text('Dashboard'),
+                  title: const Text('Dashboard'),
                   onTap: () {
                     Navigator.pushNamed(context, RouteName.adminHome);
                   },
                 ),
                 ListTile(
-                  title: Text('Manage Students'),
+                  title: const Text('Manage Students'),
                   onTap: () {
                     Navigator.pushNamed(context, RouteName.manageStudents);
                   },
                 ),
                 ListTile(
-                  title: Text('Manage Feedback'),
+                  title: const Text('Manage Feedback'),
                   onTap: () {
                     Navigator.pushNamed(context, RouteName.manageFeedbackView);
                   },
@@ -34,7 +34,7 @@ class DrawerMenu extends StatelessWidget {
               ]
             : [
                 ListTile(
-                  title: Text('Dashboard'),
+                  title: const Text('Dashboard'),
                   onTap: () {
                     Navigator.pushNamed(context, RouteName.home);
                   },
@@ -44,7 +44,7 @@ class DrawerMenu extends StatelessWidget {
                   onTap: () {},
                 ), */
                 ListTile(
-                  title: Text('Give FeedBack'),
+                  title: const Text('Give FeedBack'),
                   onTap: () {
                     Navigator.pushNamed(context, RouteName.giveFeedback);
                   },
@@ -78,12 +78,12 @@ class DrawerMenu extends StatelessWidget {
                         children: [
                           Text(
                             Utils.userName,
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                             // style: Theme.of(context).textTheme.headline6,
                           ),
                           Text(
                             Utils.registrationNo,
-                            style: TextStyle(color: Colors.black),
+                            style: const TextStyle(color: Colors.black),
                           ),
                         ],
                       ),
@@ -101,7 +101,9 @@ class DrawerMenu extends StatelessWidget {
                                 final prefs =
                                     await SharedPreferences.getInstance();
                                 await prefs.remove('userModel');
-                                Navigator.of(context).pop();
+                                if (context.mounted) Navigator.of(context).pop();
+
+
                                 Navigator.pushNamedAndRemoveUntil(
                                     context, RouteName.login, (route) => false);
                               }).onError((error, stackTrace) {

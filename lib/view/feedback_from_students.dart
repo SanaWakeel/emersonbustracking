@@ -1,6 +1,4 @@
-import 'dart:convert';
 
-import 'package:emersonbustracking/model/signup_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../model/feedback_model.dart';
 import '../res/colors.dart';
 import '../res/components/round_button.dart';
-import '../utils/routes/route_name.dart';
 import '../utils/utils.dart';
 import '../viewModel/auth_view_model.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -31,6 +28,7 @@ class _FeedbackStudentsViewState extends State<FeedbackStudentsView> {
   FocusNode feedbackFocusNode = FocusNode();
   final _auth = FirebaseAuth.instance;
 
+  @override
   void dispose() {
     super.dispose();
     feedbackFocusNode.dispose();
@@ -65,7 +63,7 @@ class _FeedbackStudentsViewState extends State<FeedbackStudentsView> {
         Navigator.of(context).pop();
       });
     } catch (e) {
-      Navigator.of(context).pop();
+      if (context.mounted) Navigator.of(context).pop();
       Utils.toastMessage("Error:$e", AppColors.errorToast);
     }
   }

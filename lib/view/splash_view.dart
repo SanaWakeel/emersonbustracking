@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
+            SizedBox(
               height: 200,
               width: 200,
               // color: Colors.blue,
@@ -34,11 +34,9 @@ class _SplashScreenState extends State<SplashScreen> {
             const SizedBox(
               height: 20,
             ),
-            Container(
-              child: const Text(
-                'Emerson Bus Tracking',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
+            const Text(
+              'Emerson Bus Tracking',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
           ],
         ),

@@ -1,8 +1,5 @@
-import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../model/signup_model.dart';
 import '../../view/Firebase_view.dart';
 import '../../view/customer_home_view.dart';
 import '../../view/feedback_from_students.dart';

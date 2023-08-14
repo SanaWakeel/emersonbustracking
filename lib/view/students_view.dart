@@ -9,7 +9,6 @@ import '../res/colors.dart';
 import '../utils/routes/route_name.dart';
 import '../viewModel/user_view_model.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'edit_bus_route_screen.dart';
 import 'widgets/drawer_menu.dart';
 
 class StudentsView extends StatefulWidget {
@@ -27,7 +26,7 @@ class _StudentsViewState extends State<StudentsView> {
   final searchFilter = TextEditingController();
   final editController = TextEditingController();
 
-  Widget BusRoutesList(DataSnapshot snapshot) {
+  Widget busRoutesList(DataSnapshot snapshot) {
     return ReusableCard(
       onPress: () {
         // Navigator.pushNamed(context, RouteName.bustracking);
@@ -36,7 +35,7 @@ class _StudentsViewState extends State<StudentsView> {
       cardChild: Container(
         width: double.infinity,
         height: 150,
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Stack(
           children: [
             Column(
@@ -50,7 +49,7 @@ class _StudentsViewState extends State<StudentsView> {
                       "registrationNo:",
                       style: textStyleLabel,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     snapshot.child('registrationNo').value != null
@@ -64,7 +63,7 @@ class _StudentsViewState extends State<StudentsView> {
                           ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -74,18 +73,16 @@ class _StudentsViewState extends State<StudentsView> {
                       "Name:",
                       style: textStyleLabel,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
-                      snapshot.child('firstName').value.toString() +
-                          " " +
-                          snapshot.child('lastName').value.toString(),
+                      "${snapshot.child('firstName').value} ${snapshot.child('lastName').value}",
                       style: textStyleLabel,
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -95,7 +92,7 @@ class _StudentsViewState extends State<StudentsView> {
                       "age:",
                       style: textStyleLabel,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
@@ -110,7 +107,7 @@ class _StudentsViewState extends State<StudentsView> {
               right: 5,
               bottom: 20,
               child: PopupMenuButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.more_vert,
                   color: AppColors.white,
                 ),
@@ -205,8 +202,8 @@ class _StudentsViewState extends State<StudentsView> {
                               .child(snapshot.child('id').value.toString())
                               .remove();
                         },
-                        leading: Icon(Icons.delete),
-                        title: Text('Delete'),
+                        leading: const Icon(Icons.delete),
+                        title: const Text('Delete'),
                       ))
                 ],
               ),
@@ -235,7 +232,7 @@ class _StudentsViewState extends State<StudentsView> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(Icons.menu),
+              icon: const Icon(Icons.menu),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -258,7 +255,7 @@ class _StudentsViewState extends State<StudentsView> {
                 await prefs.remove('userModel');
                 // final pref = await SharedPreferences.getInstance();
                 // pref.setBool('showHome', false);
-                Navigator.of(context).pop();
+                if (context.mounted) Navigator.of(context).pop();
                 Navigator.pushNamedAndRemoveUntil(
                     context, RouteName.login, (route) => false);
               }).onError((error, stackTrace) {
@@ -276,14 +273,14 @@ class _StudentsViewState extends State<StudentsView> {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextFormField(
                 controller: searchFilter,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "enter registration number or name",
                   border: OutlineInputBorder(),
                 ),
@@ -296,20 +293,18 @@ class _StudentsViewState extends State<StudentsView> {
             Expanded(
               child: FirebaseAnimatedList(
                   query: databaseRef,
-                  defaultChild: Text('Loading'),
+                  defaultChild: const Text('Loading'),
                   itemBuilder: (context, snapshot, animation, index) {
                     final title =
                         snapshot.child('registrationNo').value.toString();
-                    final name = snapshot.child('firstName').value.toString() +
-                        " " +
-                        snapshot.child('lastName').value.toString();
+                    final name = "${snapshot.child('firstName').value} ${snapshot.child('lastName').value}";
                     if (searchFilter.text.isEmpty) {
-                      return BusRoutesList(snapshot);
+                      return busRoutesList(snapshot);
                     } else if (title.toLowerCase().contains(
                             searchFilter.text.toLowerCase().toString()) ||
                         name.toLowerCase().contains(
                             searchFilter.text.toLowerCase().toString())) {
-                      return BusRoutesList(snapshot);
+                      return busRoutesList(snapshot);
                     } else {
                       return Container();
                     }
@@ -352,13 +347,11 @@ class _StudentsViewState extends State<StudentsView> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Update'),
-            content: Container(
-              child: TextField(
-                controller: editController,
-                decoration: InputDecoration(
-                  hintText: "edit",
-                ),
+            title: const Text('Update'),
+            content: TextField(
+              controller: editController,
+              decoration: const InputDecoration(
+                hintText: "edit",
               ),
             ),
             actions: [
@@ -366,7 +359,7 @@ class _StudentsViewState extends State<StudentsView> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("Cancel")),
+                  child: const Text("Cancel")),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -378,7 +371,7 @@ class _StudentsViewState extends State<StudentsView> {
                     }).onError((error, stackTrace) => Utils.toastMessage(
                             error.toString(), AppColors.errorToast));
                   },
-                  child: Text("Update")),
+                  child: const Text("Update")),
             ],
           );
         });

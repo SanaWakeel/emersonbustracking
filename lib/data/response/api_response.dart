@@ -10,6 +10,7 @@ class ApiResponse<T> {
   ApiResponse.completed() : status = Status.completed;
   ApiResponse.error() : status = Status.error;
 
+  @override
   String toString() {
     return "Status:$status \n Message:$message \n Data:$data";
   }

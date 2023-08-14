@@ -14,7 +14,7 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
-  final Set<Polyline> _polylines = Set();
+  final Set<Polyline> _polylines = {};
 
   final LatLng _point1 = const LatLng(12.947437, 77.681345);
   final LatLng _point2 = const LatLng(12.948767, 77.689120);
@@ -37,22 +37,22 @@ class _MapViewState extends State<MapView> {
   void getCurrentLocation() async {
     Location location = Location();
 
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData locationData;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
         return;
       }
     }
 
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
         return;
       }
     }
@@ -88,11 +88,11 @@ class _MapViewState extends State<MapView> {
     debugPrint("Api Response1: $result");
     if (result.points.isNotEmpty) {
       debugPrint("Api Response: $result");
-      result.points.forEach(
-        (PointLatLng point) => polylineCoordinates.add(
+      for (var point in result.points) {
+        polylineCoordinates.add(
           LatLng(point.latitude, point.longitude),
-        ),
-      );
+        );
+      }
 
       setState(() {});
     }

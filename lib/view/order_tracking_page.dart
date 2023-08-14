@@ -53,22 +53,22 @@ class _BusTrackingViewState extends State<BusTrackingView> {
     Location location = Location();
     Location location2 = Location();
 
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-    LocationData _locationData;
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData locationData;
 
-    _serviceEnabled = await location.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await location.requestService();
-      if (!_serviceEnabled) {
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
         return;
       }
     }
 
-    _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
         return;
       }
     }
@@ -99,17 +99,17 @@ class _BusTrackingViewState extends State<BusTrackingView> {
     debugPrint("Api Response1: $result");
     if (result.points.isNotEmpty) {
       debugPrint("Api Response: $result");
-      result.points.forEach(
-        (PointLatLng point) => polylineCoordinates.add(
+      for (var point in result.points) {
+        polylineCoordinates.add(
           LatLng(point.latitude, point.longitude),
-        ),
-      );
+        );
+      }
 
       setState(() {});
     }
   }
 
-  final Set<Polyline> _polylines = Set();
+  final Set<Polyline> _polylines = {};
 
   drawCurvedLineOnMap() async {
     final LatLng sourcePoint =
@@ -151,13 +151,13 @@ class _BusTrackingViewState extends State<BusTrackingView> {
     // TODO: implement initState
     // getCurrentLocation();
     SchedulerBinding.instance.addPostFrameCallback((_) {
-      PageDataLoad();
+      pageDataLoad();
     });
 
     super.initState();
   }
 
-  PageDataLoad() async {
+  pageDataLoad() async {
     await setCustomMarkerIcon();
     // getPolyPoints();
     await drawCurvedLineOnMap();
@@ -174,7 +174,7 @@ class _BusTrackingViewState extends State<BusTrackingView> {
         ),
       ),
       body: GoogleMap(
-        initialCameraPosition: CameraPosition(
+        initialCameraPosition: const CameraPosition(
             target: LatLng(30.207122137325996, 71.47870209642313),
             // target: LatLng(30.200385485010393, 71.47812469871396),
             // target: LatLng(31.509598519874956, 74.2716363016269),
@@ -192,14 +192,14 @@ class _BusTrackingViewState extends State<BusTrackingView> {
         markers: {
           Marker(
             markerId: const MarkerId("currentLocation"),
-            infoWindow: InfoWindow(
+            infoWindow: const InfoWindow(
               //popup info
               title: 'bus location ',
               // snippet: 'My Custom Subtitle',
             ),
             icon: sourceIcon,
             // icon: currentLocationIcon,
-            position: LatLng(30.216947165550714, 71.49194943011416),
+            position: const LatLng(30.216947165550714, 71.49194943011416),
             // position: LatLng(31.50708592305328, 74.26277550690618),
           ),
           Marker(
@@ -207,7 +207,7 @@ class _BusTrackingViewState extends State<BusTrackingView> {
             icon: currentLocationIcon,
             // icon: sourceIcon,
             position: sourceLocation,
-            infoWindow: InfoWindow(
+            infoWindow: const InfoWindow(
               //popup info
               title: 'source location ',
               // snippet: 'My Custom Subtitle',
@@ -217,7 +217,7 @@ class _BusTrackingViewState extends State<BusTrackingView> {
             markerId: const MarkerId("destination"),
             icon: destinationIcon,
             position: destination,
-            infoWindow: InfoWindow(
+            infoWindow: const InfoWindow(
               //popup info
               title: 'destination location ',
               // snippet: 'My Custom Subtitle',

@@ -8,8 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../res/colors.dart';
 import '../utils/routes/route_name.dart';
 import '../viewModel/user_view_model.dart';
-import '../res/components/round_button.dart';
-import '../viewModel/auth_view_model.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 import 'edit_bus_route_screen.dart';
@@ -39,7 +37,7 @@ class _HomeViewState extends State<HomeView> {
       cardChild: Container(
         width: double.infinity,
         height: 150,
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Stack(
           children: [
             Column(
@@ -52,7 +50,7 @@ class _HomeViewState extends State<HomeView> {
                     style: textStyleHeading,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -62,7 +60,7 @@ class _HomeViewState extends State<HomeView> {
                       "id:",
                       style: textStyleLabel,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 30,
                     ),
                     Text(
@@ -71,7 +69,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -81,7 +79,7 @@ class _HomeViewState extends State<HomeView> {
                       "From:",
                       style: textStyleLabel,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 30,
                     ),
                     Text(
@@ -90,7 +88,7 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -100,7 +98,7 @@ class _HomeViewState extends State<HomeView> {
                       "To:",
                       style: textStyleLabel,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 30,
                     ),
                     Text(
@@ -118,7 +116,7 @@ class _HomeViewState extends State<HomeView> {
               right: 5,
               bottom: 20,
               child: PopupMenuButton(
-                icon: Icon(
+                icon: const Icon(
                   Icons.more_vert,
                   color: AppColors.white,
                 ),
@@ -201,8 +199,8 @@ class _HomeViewState extends State<HomeView> {
                             },
                           );
                         },
-                        leading: Icon(Icons.edit),
-                        title: Text('Edit'),
+                        leading: const Icon(Icons.edit),
+                        title: const Text('Edit'),
                       )),
                   PopupMenuItem(
                       value: 2,
@@ -213,8 +211,8 @@ class _HomeViewState extends State<HomeView> {
                               .child(snapshot.child('id').value.toString())
                               .remove();
                         },
-                        leading: Icon(Icons.delete),
-                        title: Text('Delete'),
+                        leading: const Icon(Icons.delete),
+                        title: const Text('Delete'),
                       ))
                 ],
               ),
@@ -243,7 +241,7 @@ class _HomeViewState extends State<HomeView> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(Icons.menu),
+              icon: const Icon(Icons.menu),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -266,8 +264,8 @@ class _HomeViewState extends State<HomeView> {
                 await prefs.remove('userModel');
                 // final pref = await SharedPreferences.getInstance();
                 // pref.setBool('showHome', false);
-                Navigator.of(context).pop();
-                Navigator.pushNamedAndRemoveUntil(
+                if (context.mounted) Navigator.of(context).pop();
+                 Navigator.pushNamedAndRemoveUntil(
                     context, RouteName.login, (route) => false);
               }).onError((error, stackTrace) {
                 Utils.toastMessage(error.toString(), AppColors.errorToast);
@@ -285,23 +283,23 @@ class _HomeViewState extends State<HomeView> {
         onPressed: () {
           Navigator.pushNamed(context, RouteName.firebase);
         },
-        child: Icon(
+        backgroundColor: AppColors.primaryColor,
+        child: const Icon(
           Icons.add,
           color: AppColors.white,
         ),
-        backgroundColor: AppColors.primaryColor,
       ),
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextFormField(
                 controller: searchFilter,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "Search bus root number",
                   border: OutlineInputBorder(),
                 ),
@@ -314,7 +312,7 @@ class _HomeViewState extends State<HomeView> {
             Expanded(
               child: FirebaseAnimatedList(
                   query: databaseRef,
-                  defaultChild: Text('Loading'),
+                  defaultChild: const Text('Loading'),
                   itemBuilder: (context, snapshot, animation, index) {
                     final title =
                         snapshot.child('busRouteNumber').value.toString();
@@ -366,13 +364,11 @@ class _HomeViewState extends State<HomeView> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Update'),
-            content: Container(
-              child: TextField(
-                controller: editController,
-                decoration: InputDecoration(
-                  hintText: "edit",
-                ),
+            title: const Text('Update'),
+            content: TextField(
+              controller: editController,
+              decoration: const InputDecoration(
+                hintText: "edit",
               ),
             ),
             actions: [
@@ -380,7 +376,7 @@ class _HomeViewState extends State<HomeView> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("Cancel")),
+                  child: const Text("Cancel")),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -392,7 +388,7 @@ class _HomeViewState extends State<HomeView> {
                     }).onError((error, stackTrace) => Utils.toastMessage(
                             error.toString(), AppColors.errorToast));
                   },
-                  child: Text("Update")),
+                  child: const Text("Update")),
             ],
           );
         });

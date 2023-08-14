@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../res/colors.dart';
 import '../res/components/round_button.dart';
-import '../utils/routes/route_name.dart';
 import '../utils/utils.dart';
 import '../viewModel/auth_view_model.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -49,6 +48,7 @@ class _FirebaseViewState extends State<FirebaseView> {
 
   final _auth = FirebaseAuth.instance;
 
+  @override
   void dispose() {
     super.dispose();
     _routeNumberController.dispose();
@@ -68,7 +68,7 @@ class _FirebaseViewState extends State<FirebaseView> {
     // obsurePassword.dispose();
   }
 
-  void AddBusRoute() async {
+  void addBusRoute() async {
     showDialog(
         context: context,
         builder: (context) {
@@ -138,7 +138,7 @@ class _FirebaseViewState extends State<FirebaseView> {
                   children: [
                     TextFormField(
                       keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
+                          const TextInputType.numberWithOptions(decimal: true),
                       controller: _routeNumberController,
                       focusNode: routeNumberFocusNode,
                       decoration: const InputDecoration(
@@ -181,7 +181,7 @@ class _FirebaseViewState extends State<FirebaseView> {
                     ),
                     TextFormField(
                       keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
+                          const TextInputType.numberWithOptions(decimal: true),
                       controller: _sourceLocationLatitudeController,
                       focusNode: sourceLocationLatitudeFocusNode,
                       decoration: const InputDecoration(
@@ -204,7 +204,7 @@ class _FirebaseViewState extends State<FirebaseView> {
                     ),
                     TextFormField(
                       keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
+                          const TextInputType.numberWithOptions(decimal: true),
                       controller: _sourceLocationLongitudeController,
                       focusNode: sourceLocationLongitudeFocusNode,
                       decoration: const InputDecoration(
@@ -249,7 +249,7 @@ class _FirebaseViewState extends State<FirebaseView> {
                     ),
                     TextFormField(
                       keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
+                          const TextInputType.numberWithOptions(decimal: true),
                       controller: _destinationLocationLatitudeController,
                       focusNode: destinationLocationLatitudeFocusNode,
                       decoration: const InputDecoration(
@@ -272,7 +272,7 @@ class _FirebaseViewState extends State<FirebaseView> {
                     ),
                     TextFormField(
                       keyboardType:
-                          TextInputType.numberWithOptions(decimal: true),
+                          const TextInputType.numberWithOptions(decimal: true),
                       controller: _destinationLocationLongitudeController,
                       focusNode: destinationLocationLongitudeFocusNode,
                       decoration: const InputDecoration(
@@ -301,7 +301,7 @@ class _FirebaseViewState extends State<FirebaseView> {
                           if (_formKey.currentState!.validate()) {
                             // Utils.flushBarErrorMessage(
                             //     "Successfully log in", context);
-                            AddBusRoute();
+                            addBusRoute();
                           }
 
                           // if (_emailController.text.isEmpty) {

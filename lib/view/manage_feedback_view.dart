@@ -26,7 +26,7 @@ class _ManageFeedbackViewState extends State<ManageFeedbackView> {
   final searchFilter = TextEditingController();
   final editController = TextEditingController();
 
-  Widget BusRoutesList(DataSnapshot snapshot) {
+  Widget busRoutesList(DataSnapshot snapshot) {
     return ReusableCard(
       onPress: () {
         // Navigator.pushNamed(context, RouteName.bustracking);
@@ -35,7 +35,7 @@ class _ManageFeedbackViewState extends State<ManageFeedbackView> {
       cardChild: Container(
         width: double.infinity,
         height: 150,
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Stack(
           children: [
             Column(
@@ -49,7 +49,7 @@ class _ManageFeedbackViewState extends State<ManageFeedbackView> {
                       "registrationNo:",
                       style: textStyleLabel,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     snapshot.child('registrationNo').value != null
@@ -63,7 +63,7 @@ class _ManageFeedbackViewState extends State<ManageFeedbackView> {
                           ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -73,7 +73,7 @@ class _ManageFeedbackViewState extends State<ManageFeedbackView> {
                       "Feedback:",
                       style: textStyleLabel,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Text(
@@ -213,7 +213,7 @@ class _ManageFeedbackViewState extends State<ManageFeedbackView> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(Icons.menu),
+              icon: const Icon(Icons.menu),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -236,7 +236,7 @@ class _ManageFeedbackViewState extends State<ManageFeedbackView> {
                 await prefs.remove('userModel');
                 // final pref = await SharedPreferences.getInstance();
                 // pref.setBool('showHome', false);
-                Navigator.of(context).pop();
+                if (context.mounted) Navigator.of(context).pop();
                 Navigator.pushNamedAndRemoveUntil(
                     context, RouteName.login, (route) => false);
               }).onError((error, stackTrace) {
@@ -254,14 +254,14 @@ class _ManageFeedbackViewState extends State<ManageFeedbackView> {
       body: SafeArea(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: TextFormField(
                 controller: searchFilter,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: "enter registration number",
                   border: OutlineInputBorder(),
                 ),
@@ -273,17 +273,17 @@ class _ManageFeedbackViewState extends State<ManageFeedbackView> {
             Expanded(
               child: FirebaseAnimatedList(
                   query: databaseRef,
-                  defaultChild: Text('Loading'),
+                  defaultChild: const Text('Loading'),
                   itemBuilder: (context, snapshot, animation, index) {
                     final registrationNo =
                         snapshot.child('registrationNo').value.toString();
 
                     if (searchFilter.text.isEmpty) {
-                      return BusRoutesList(snapshot);
+                      return busRoutesList(snapshot);
                     } else if (registrationNo
                         .toLowerCase()
                         .contains(searchFilter.text.toLowerCase().toString())) {
-                      return BusRoutesList(snapshot);
+                      return busRoutesList(snapshot);
                     } else {
                       return Container();
                     }
@@ -301,13 +301,11 @@ class _ManageFeedbackViewState extends State<ManageFeedbackView> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Update'),
-            content: Container(
-              child: TextField(
-                controller: editController,
-                decoration: InputDecoration(
-                  hintText: "edit",
-                ),
+            title: const Text('Update'),
+            content: TextField(
+              controller: editController,
+              decoration: const InputDecoration(
+                hintText: "edit",
               ),
             ),
             actions: [
@@ -315,7 +313,7 @@ class _ManageFeedbackViewState extends State<ManageFeedbackView> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text("Cancel")),
+                  child: const Text("Cancel")),
               TextButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -327,7 +325,7 @@ class _ManageFeedbackViewState extends State<ManageFeedbackView> {
                     }).onError((error, stackTrace) => Utils.toastMessage(
                             error.toString(), AppColors.errorToast));
                   },
-                  child: Text("Update")),
+                  child: const Text("Update")),
             ],
           );
         });

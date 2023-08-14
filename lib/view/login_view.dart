@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:emersonbustracking/enum/user_type.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -14,8 +15,6 @@ import '../res/components/round_button.dart';
 import '../utils/routes/route_name.dart';
 import '../utils/utils.dart';
 import '../viewModel/auth_view_model.dart';
-import 'home_view.dart';
-import 'customer_home_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -37,12 +36,14 @@ class _LoginViewState extends State<LoginView> {
   FocusNode passwordFocusNode = FocusNode();
   final _auth = FirebaseAuth.instance;
 
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
     databaseRef.onValue.listen((event) {}); // through stream get all data
   }
 
+  @override
   void dispose() {
     super.dispose();
     _emailController.dispose();
@@ -74,20 +75,22 @@ class _LoginViewState extends State<LoginView> {
           prefs.setString('userModel', json.encode(signUpModel));
           Utils.userName = "${signUpModel.firstName} ${signUpModel.lastName}";
           Utils.registrationNo = signUpModel.registrationNo.toString();
-          Utils.UserType = signUpModel.role!;
+          Utils.userType = signUpModel.role!;
           Utils.toastMessage("Login Success", AppColors.successToast);
-          print("role:${signUpModel.role}");
+          if (kDebugMode) {
+            print("role:${signUpModel.role}");
+          }
 
           var signUpModelShared = json.decode(prefs.getString('userModel')!);
           signUpModelShared = SignUpModel.fromJson(signUpModelShared);
-          debugPrint("SignUpModel Role SharedPreference:${signUpModelShared}");
-          Navigator.of(context).pop();
+          debugPrint("SignUpModel Role SharedPreference:$signUpModelShared");
+          if (context.mounted) Navigator.of(context).pop();
           if (signUpModelShared!.role == UserType.admin.index) {
             // Navigator.of(context).pushNamedAndRemoveUntil(
             //     RouteName.adminHome, (Route<dynamic> route) => false);
-            Navigator.pushReplacementNamed(context, RouteName.adminHome);
+            if (context.mounted)  Navigator.pushReplacementNamed(context, RouteName.adminHome);
           } else if (signUpModelShared!.role == UserType.user.index) {
-            Navigator.pushReplacementNamed(context, RouteName.home);
+            if (context.mounted) Navigator.pushReplacementNamed(context, RouteName.home);
             // Navigator.of(context).pushNamedAndRemoveUntil(
             //     RouteName.home, (Route<dynamic> route) => false);
             // Navigator.pushReplacementNamed(context, RouteName.home);
@@ -110,11 +113,13 @@ class _LoginViewState extends State<LoginView> {
           // }
           // Navigator.pushReplacementNamed(context, RouteName.home);
         } else {
-          Navigator.of(context).pop();
+          if (context.mounted) Navigator.of(context).pop();
         }
-        print("My User Model is:  ${signUpModel?.toJson()}");
+        if (kDebugMode) {
+          print("My User Model is:  ${signUpModel?.toJson()}");
+        }
       } else {
-        Navigator.of(context).pop();
+        if (context.mounted)  Navigator.of(context).pop();
       }
     } catch (e) {
       Navigator.of(context).pop();
@@ -167,9 +172,9 @@ class _LoginViewState extends State<LoginView> {
                   child: Column(
                     children: [
                       CircleAvatar(
-                        child: Image.asset('lib/res/images/bus_circle.png'),
                         backgroundColor: AppColors.white,
                         maxRadius: 80,
+                        child: Image.asset('lib/res/images/bus_circle.png'),
                       ),
                       TextFormField(
                         keyboardType: TextInputType.emailAddress,

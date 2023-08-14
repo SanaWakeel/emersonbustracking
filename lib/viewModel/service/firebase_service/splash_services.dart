@@ -25,15 +25,15 @@ class SplashServices {
       if (userModel != null) {
         var signUpModel = json.decode(userModel);
         signUpModel = SignUpModel.fromJson(signUpModel);
-        debugPrint("SignUpModel Role:${signUpModel}");
+        debugPrint("SignUpModel Role:$signUpModel");
         if (signUpModel!.role == UserType.admin.index) {
-          Utils.UserType = 0;
+          Utils.userType = 0;
           Timer(
               const Duration(seconds: 3),
               () =>
                   Navigator.pushReplacementNamed(context, RouteName.adminHome));
         } else if (signUpModel!.role == UserType.user.index) {
-          Utils.UserType = 1;
+          Utils.userType = 1;
           Timer(const Duration(seconds: 3),
               () => Navigator.pushReplacementNamed(context, RouteName.home));
         }

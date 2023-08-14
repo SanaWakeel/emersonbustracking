@@ -1,8 +1,9 @@
 class AppException {
-  final _message, _prefix;
+  final dynamic _message, _prefix;
 
   AppException([this._message, this._prefix]);
 
+  @override
   String toString() {
     return '$_prefix $_message';
   }
@@ -23,6 +24,5 @@ class UnautherizedException extends AppException {
 }
 
 class InvalidInputException extends AppException {
-  InvalidInputException([String? message])
-      : super(message, 'Invalid input');
+  InvalidInputException([String? message]) : super(message, 'Invalid input');
 }

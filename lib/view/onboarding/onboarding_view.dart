@@ -91,9 +91,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-                    child: Column(
+                    child: const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children:  [
                         Text(
                           "Track University Bus",
                           style: TextStyle(
@@ -134,9 +134,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    child: Column(
+                    child:const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children:  [
                         Text(
                           "Smart Notification",
                           style: TextStyle(
@@ -175,9 +175,9 @@ class _OnboardingViewState extends State<OnboardingView> {
                   ),
                   Container(
                     margin: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                    child: Column(
+                    child:const Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children:  [
                         Text(
                           "Emerson Bus Tracking",
                           style: TextStyle(
@@ -256,7 +256,7 @@ class _OnboardingViewState extends State<OnboardingView> {
               onPressed: () async {
                 final pref = await SharedPreferences.getInstance();
                 pref.setBool('showHome', true);
-                Navigator.pushReplacementNamed(context, RouteName.login);
+                if (context.mounted) Navigator.pushReplacementNamed(context, RouteName.login);
                 // Navigator.pushNamed(context, RouteName.home);
               },
             )
